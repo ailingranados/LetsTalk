@@ -34,3 +34,11 @@ Estar posicionados en la carpeta de SERVER:
 En el cliente
 carpeta\cliente 
 #npm install axios
+
+//iniciar front npm start
+//iniciar server node index.js
+//notas instalar express, axio, boostrap front
+//cors en server instalar
+//axios ayuda a ala peticion del front con el servidor
+//cors ayuda a que no nos niegue la peticion al servidor
+//json para mandar la infromacion en formato json
