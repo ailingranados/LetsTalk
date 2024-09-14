@@ -42,3 +42,5 @@ carpeta\cliente
 //axios ayuda a ala peticion del front con el servidor
 //cors ayuda a que no nos niegue la peticion al servidor
 //json para mandar la infromacion en formato json
+
+//carpeta de server fallando, se inicializo una nueva
