@@ -1,0 +1,29 @@
+.bg-dark {
+    background-color: #000 !important;
+}
+
+.text-light {
+    color: #fff !important;
+}
+
+.min-vh-100 {
+    min-height: 100vh;
+}
+
+.rounded {
+    border-radius: 0.25rem;
+}
+
+.p-4 {
+    padding: 1.5rem;
+}
+
+.form-control-custom {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+}
+
+.form-control-custom::placeholder {
+    color: #666;
+}
