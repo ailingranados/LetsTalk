@@ -1,23 +1,33 @@
-CREATE DATABASE LetsTalk;
+/*CREATE DATABASE LetsTalk;
 
 USE LetsTalk;
 
+DROP DATABASE LETSTALK
+
 /************************************************************************************TABLAS DE USUARIO******/
-CREATE TABLE Usuario (
-    Id 				INT AUTO_INCREMENT PRIMARY KEY,
-    Nombre 			VARCHAR(50) NOT NULL,
-    Apellido 		VARCHAR(50) NOT NULL,
-    Correo 			VARCHAR(100) NOT NULL UNIQUE,
-    Contraseña 		VARCHAR(50) NOT NULL,
-    Fecha_nacimiento	DATE NOT NULL
-);
 
 CREATE TABLE Estado_Usuario(
 	Id 				INT AUTO_INCREMENT PRIMARY KEY,
-	Estado 			TINYINT(1) NOT NULL,
-	Fecha_registro 	DATETIME NOT NULL,
-	Fecha_baja 		DATETIME
+	Estado 			VARCHAR(15) NOT NULL
+	
 );
+
+CREATE TABLE Usuario (
+    Id 					INT AUTO_INCREMENT PRIMARY KEY,
+	Usuario				VARCHAR(50) NOT NULL UNIQUE,
+    Nombre 				VARCHAR(50) NOT NULL,
+    Apellido 			VARCHAR(50) NOT NULL,
+    Correo 				VARCHAR(100) NOT NULL UNIQUE,
+    Contraseña 			VARCHAR(50) NOT NULL,
+    Fecha_nacimiento	DATE NOT NULL,
+	Img_perfil				BLOB,
+    Estado				INT,
+    Fecha_registro		DATETIME,
+    
+    FOREIGN KEY (Estado) REFERENCES Estado_Usuario(Id)
+);
+
+
 
 /*************************************************************************************TABLAS DE LISTBOX******/
 CREATE TABLE Categoria(
