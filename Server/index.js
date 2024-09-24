@@ -31,9 +31,10 @@ const db = mysql.createConnection({
 app.listen(3001, () => {
     console.log("Escuchando en el puerto 3001");
 });
+
 app.post("/create", (req, resp) => {
     const { usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil } = req.body;
-
+  
     db.query('CALL SP_RegistrarUsuario(?, ?, ?, ?, ?, ?, ?)', 
         [usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil], 
         (error, results) => {

@@ -34,7 +34,8 @@ export default function Signup() {
         try {
             const response = await axios.post("http://localhost:3001/create", formData);
             console.log("Response data:", response.data); // Verifica la estructura de la respuesta
-    
+            console.log({ usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil });
+
             const { mensaje } = response.data;
     
             if (mensaje === 'El correo electrónico ya está registrado.') {
