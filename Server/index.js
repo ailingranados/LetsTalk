@@ -40,9 +40,8 @@ app.post("/create", (req, resp) => {
         [usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil], 
         (error, results) => {
             if (error) {
-                console.error("Error en la base de datos:", error); // Agregar detalles del error en los logs
+                console.error("Error en la base de datos:", error);
                 if (error.code === 'ER_SIGNAL_EXCEPTION') {
-                    // Extraer el mensaje del error
                     const mensaje = error.sqlMessage.includes('El correo electrónico ya está registrado.')
                         ? 'El correo electrónico ya está registrado.'
                         : 'Error al registrar usuario';
@@ -51,12 +50,16 @@ app.post("/create", (req, resp) => {
                     resp.status(500).send({ mensaje: "Error al registrar usuario" });
                 }
             } else {
-                // Procesar los resultados del procedimiento almacenado
-                const result = results[0][0]; // Ajusta esto si es necesario
-                if (result && result.mensaje) {
-                    resp.send({ mensaje: result.mensaje });
+                // Verificar si results tiene datos
+                if (results && results.length > 0 && results[0].length > 0) {
+                    const result = results[0][0]; // Ajusta esto si es necesario
+                    if (result && result.mensaje) {
+                        resp.send({ mensaje: result.mensaje });
+                    } else {
+                        resp.status(500).send({ mensaje: "Error al registrar usuario" });
+                    }
                 } else {
-                    resp.status(500).send({ mensaje: "Error al registrar usuario" });
+                    resp.status(500).send({ mensaje: "No se recibieron resultados del procedimiento almacenado" });
                 }
             }
         }
@@ -64,15 +67,10 @@ app.post("/create", (req, resp) => {
 });
 
 
-
-
-
-
-// Nueva ruta para manejo de login
+// Ruta para manejo de login
 app.post("/login", (req, res) => {
     const { correo, contrasena } = req.body;
 
-    // Llamar al procedimiento almacenado
     db.query('CALL SP_IniciarSesion (?, ?, @mensaje, @id_usuario); SELECT @mensaje AS mensaje, @id_usuario AS id_usuario;', 
         [correo, contrasena], 
         (error, results) => {
@@ -80,7 +78,7 @@ app.post("/login", (req, res) => {
                 console.error(error);
                 res.status(500).send({ mensaje: "Error en el servidor" });
             } else {
-                const result = results[1][0]; 
+                const result = results[1][0];
                 res.send({
                     mensaje: result.mensaje,
                     id_usuario: result.id_usuario
@@ -90,14 +88,13 @@ app.post("/login", (req, res) => {
     );
 });
 
-
+// Ruta para obtener usuarios
 app.get("/getUsuarios", (req, res) => {
-    db.query('SELECT * FROM usuario'),
-        (err, data)=>{
-            if(err){
-                console.log(err);
-            }else{
-                resp.json(data);
-            }
+    db.query('SELECT * FROM Usuario;', (err, data) => {
+        if (err) {
+            res.status(500).json({ error: "FATAL ERROR al obtener los usuarios" });
+        } else {
+            res.json(data);
         }
-}); 
+    });
+});

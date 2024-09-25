@@ -6,12 +6,12 @@ function NavBar (){
     const usuario = localStorage.getItem('sesion'); // Obtener el ID del usuario de localStorage
     return(
         
-<nav class="navbar bg-body-tertiary">
-                <div class="container-fluid">
+<nav className="navbar bg-body-tertiary">
+                <div className="container-fluid">
 {
                     usuario?
                     <>
-                    <span class="navbar-brand mb-0 h1">{usuario}</span> //Cambiar el texto por el valor de la variable sesion
+                    <span className="navbar-brand mb-0 h1">{usuario}</span> //Cambiar el texto por el valor de la variable sesion
                     <Link to="/Login" className='btn btn-outline-info'>Cerrar sesión</Link> // Agregar un botón para cerrar sesión
                     </>
                     :

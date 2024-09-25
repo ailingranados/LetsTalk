@@ -8,18 +8,16 @@ function ListaUsaurios() {
 
     const [ListU, setListU] = useState([]);
 
-    useEffect(
-        () => {
-            axios.get("http://localhost:3001/getUsuarios", {}).then(
-                (resp) => {
-                    setListU(resp.data);
-                    console.log(resp.data);
-                }
-
-            )
-
-        }, []
-    )
+    useEffect(() => {
+        axios.get("http://localhost:3001/getUsuarios")
+            .then((resp) => {
+                setListU(resp.data);
+                console.log(resp.data);
+            })
+            .catch((error) => {
+                console.error("Hubo un error al obtener los usuarios: ", error);
+            });
+    }, []);
 
     return (
         <>
@@ -27,12 +25,12 @@ function ListaUsaurios() {
             <ol className="list-group list-group-numbered">
                 {
                     ListU.map(
-                        (value, key) => {
+                        (value, index) => {
                             return (
-                                <li className="list-group-item d-flex justify-content-between align-items-start">
+                                <li key={index} className="list-group-item d-flex justify-content-between align-items-start">
                                     <div className="ms-2 me-auto">
-                                        <div className="fw-bold">{value.nombre}</div>
-                                        {value.correo}
+                                        <div className="fw-bold">{value.Nombre}</div>
+                                        {value.Correo}
                                     </div>
                                     <span className="badge rounded-pill">
                                         <div className="btn-group" role="group" aria-label="Basic mixed styles example">
