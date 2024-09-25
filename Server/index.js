@@ -25,7 +25,8 @@ const db = mysql.createConnection({
     user: "root",
     password: "", 
     database: "letstalk",
-    port: 3306
+    port: 3306,
+    multipleStatements: true // Permite ejecutar múltiples consultas
 });
 
 app.listen(3001, () => {
@@ -72,7 +73,7 @@ app.post("/login", (req, res) => {
     const { correo, contrasena } = req.body;
 
     // Llamar al procedimiento almacenado
-    db.query('CALL IniciarSesion(?, ?, @mensaje, @id_usuario); SELECT @mensaje AS mensaje, @id_usuario AS id_usuario;', 
+    db.query('CALL SP_IniciarSesion (?, ?, @mensaje, @id_usuario); SELECT @mensaje AS mensaje, @id_usuario AS id_usuario;', 
         [correo, contrasena], 
         (error, results) => {
             if (error) {
@@ -88,3 +89,15 @@ app.post("/login", (req, res) => {
         }
     );
 });
+
+
+app.get("/getUsuarios", (req, res) => {
+    db.query('SELECT * FROM usuario'),
+        (err, data)=>{
+            if(err){
+                console.log(err);
+            }else{
+                resp.json(data);
+            }
+        }
+}); 

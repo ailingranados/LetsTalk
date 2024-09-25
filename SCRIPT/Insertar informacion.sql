@@ -20,3 +20,7 @@ SELECT * FROM Usuario;
 
 SELECT * FROM Estado_Usuario;
 
+
+CALL IniciarSesion('ana@example.com', '123', @mensaje, @id_usuario);
+SELECT @mensaje, @id_usuario;
+

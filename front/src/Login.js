@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useEffect, useState } from 'react'; 
 import axios from 'axios';
 import { Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,6 +10,12 @@ const Login = () => {
     const [contrasena, setContrasena] = useState('');
     const [mensaje, setMensaje] = useState('');
     const [mensajeTipo, setMensajeTipo] = useState('');
+
+    useEffect( //se va ejecutar solo una vez
+        ()=>{
+            localStorage.removeItem('sesion'); // Limpiar el localStorage al cargar la página
+        }, []
+    )
 
     const navigate = useNavigate(); // Crear una instancia de useNavigate
 
@@ -26,7 +32,9 @@ const Login = () => {
             setMensajeTipo(id_usuario > 0 ? 'success' : 'error');
 
             if (id_usuario > 0) {
+                localStorage.setItem('sesion', id_usuario); // Guardar el ID del usuario en el localStorage
                 navigate('/Home'); // Usar navigate para redirigir al usuario a la página de inicio
+
             }
         } catch (error) {
             console.error("Error al iniciar sesión", error);
