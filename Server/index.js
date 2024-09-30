@@ -4,19 +4,27 @@ const mysql = require('mysql');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
 app.use(cors());
 app.use(express.json());
 
+const uploadDir = path.join(__dirname, 'uploads');
+
+// Verificar si la carpeta 'uploads' existe
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 // Configuración de multer para manejar archivos
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Carpeta donde se guardarán las imágenes
+        cb(null, uploadDir); // Guardar archivos en 'uploads/'
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname)); // Nombre del archivo
     }
 });
+
 
 const upload = multer({ storage: storage });
 
@@ -33,40 +41,22 @@ app.listen(3001, () => {
     console.log("Escuchando en el puerto 3001");
 });
 
-app.post("/create", (req, resp) => {
-    const { usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil } = req.body;
-  
-    db.query('CALL SP_RegistrarUsuario(?, ?, ?, ?, ?, ?, ?)', 
-        [usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil], 
-        (error, results) => {
-            if (error) {
-                console.error("Error en la base de datos:", error);
-                if (error.code === 'ER_SIGNAL_EXCEPTION') {
-                    const mensaje = error.sqlMessage.includes('El correo electrónico ya está registrado.')
-                        ? 'El correo electrónico ya está registrado.'
-                        : 'Error al registrar usuario';
-                    resp.status(400).send({ mensaje });
-                } else {
-                    resp.status(500).send({ mensaje: "Error al registrar usuario" });
-                }
-            } else {
-                // Verificar si results tiene datos
-                if (results && results.length > 0 && results[0].length > 0) {
-                    const result = results[0][0]; // Ajusta esto si es necesario
-                    if (result && result.mensaje) {
-                        resp.send({ mensaje: result.mensaje });
-                    } else {
-                        resp.status(500).send({ mensaje: "Error al registrar usuario" });
-                    }
-                } else {
-                    resp.status(500).send({ mensaje: "No se recibieron resultados del procedimiento almacenado" });
-                }
-            }
+app.post("/create", upload.single('fotoPerfil'), (req, res) => {
+    const { usuario, nombre, apellido, correo, contrasena, fechaNacimiento } = req.body;
+    const fotoPerfil = req.file ? req.file.path : null; // Ruta del archivo cargado
+
+    const sql = 'CALL SP_RegistrarUsuario(?, ?, ?, ?, ?, ?, ?)';
+    const values = [usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil];
+
+    db.query(sql, values, (error, results) => {
+        if (error) {
+            console.error("Error al insertar datos:", error);
+            res.status(500).send("Error al insertar datos");
+        } else {
+            res.send("Usuario creado con éxito");
         }
-    );
+    });
 });
-
-
 // Ruta para manejo de login
 app.post("/login", (req, res) => {
     const { correo, contrasena } = req.body;
