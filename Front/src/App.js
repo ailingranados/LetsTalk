@@ -4,6 +4,7 @@ import Register from './Registro';
 import Home from './Home';
 import NavBar from './NavBar';
 import ListaUsaurios from './ListaUsuarios';
+import PerfilUsuario from './PerfilUsuario';
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/Navbar" element={<NavBar />} />
-
+        <Route path="/perfil" element={<PerfilUsuario/>} />
         <Route path="/lista" element={<ListaUsaurios/>} />
+        
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
