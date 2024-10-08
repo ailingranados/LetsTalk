@@ -88,3 +88,26 @@ app.get("/getUsuarios", (req, res) => {
         }
     });
 });
+
+//modificar usuarios
+app.put("/modificarUsuario/:ModUsu", 
+    (req, resp)=>{
+        const NueNom = req.body.nuevoNombre;
+        const NueCorr = req.body.nuevoCorreo;
+        const UsuModif = req.params.ModUsu;
+
+        db.query("update Usuario set nombre=?, correo=? where nombre=?",
+            [NueNom, NueCorr, UsuModif],
+            (err, respuesta)=>{
+                if(err){
+                    resp.json({"status": 'Error'});
+                    console.log(err);
+                }else{
+                    resp.json({"status": 'Ok'});
+                }
+            }
+        )
+
+    }
+   
+)
