@@ -41,7 +41,7 @@ END //
 DELIMITER ;
 
 
-/*************/
+/************************************************************************************USUARIO******/
 DELIMITER //
 CREATE PROCEDURE SP_RegistrarUsuario (
     IN p_usuario VARCHAR(50),
@@ -59,6 +59,80 @@ BEGIN
     VALUES (
         p_usuario, p_nombre, p_apellido, p_correo, p_contrasena, p_fecha_nacimiento, p_img_perfil, 1, now()
     );
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE SP_ModificarUsuario (
+    IN IN_Id INT,
+    IN IN_usuario VARCHAR(50),
+    IN IN_contrasena VARCHAR(50),
+    IN IN_img_perfil BLOB
+)
+BEGIN
+
+	UPDATE Usuario
+		SET 
+		Usuario = IN_usuario, 
+		Contraseña = IN_contrasena,
+		Img_perfil = IN_img_perfil
+			WHERE Id = IN_Id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE SP_BorrarUsuario (
+    IN IN_Id INT
+)
+BEGIN
+
+	UPDATE Usuario
+		SET 
+		Estado = 2
+			WHERE Id = IN_Id;
+            
+END //
+DELIMITER ;
+
+/***********BUSCAR ID USUARIO POR CORREO******/
+DELIMITER //
+CREATE PROCEDURE SP_BuscarIdUsuario (
+    IN IN_correo VARCHAR(100),
+    OUT OUT_id_usuario INT
+)
+BEGIN
+
+  SELECT U.Id
+    INTO OUT_id_usuario
+		FROM Usuario U
+			WHERE U.Correo = IN_correo
+		LIMIT 1;
+
+END //
+DELIMITER ;
+
+/***********CONSEGUIR INF POR ID******/
+DELIMITER //
+CREATE PROCEDURE SP_BuscarUsuarioPorId (
+    IN IN_Id INT,
+	OUT O_usuario VARCHAR(50),
+    OUT O_nombre VARCHAR(50),
+    OUT O_apellido VARCHAR(50),
+    OUT O_correo VARCHAR(100),
+    OUT O_contrasena VARCHAR(50),
+    OUT O_fecha_nacimiento DATE,
+    OUT O_img_perfil BLOB,
+    OUT O_estado INT,
+    OUT O_fecha_registro DATETIME
+)
+BEGIN
+
+  SELECT U.Usuario, U.Nombre, U.Apellido, U.Correo, U.Contraseña, U.Fecha_nacimiento, U.Img_perfil, U.Estado, U.Fecha_registro
+    INTO O_usuario, O_nombre, O_apellido, O_correo, O_contrasena, O_fecha_nacimiento, O_img_perfil, O_estado, O_fecha_registro
+		FROM Usuario U
+			WHERE U.Id = IN_Id
+		LIMIT 1;
+
 END //
 DELIMITER ;
 

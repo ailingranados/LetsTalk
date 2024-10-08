@@ -1,4 +1,12 @@
 
+/************************************************************************************SELECTS EN BD******/
+
+SELECT * FROM Usuario;
+
+SELECT * FROM Usuario where Estado = 2; /*usuarios dados de baja*/
+
+SELECT * FROM Estado_Usuario;
+
 
 /************************************************************************************INSERTS EN BD******/
 
@@ -7,11 +15,18 @@ VALUES ('ana', 'Ana', 'Ambris', 'ana@example.com', '123', '2002-07-22', 1, NOW()
 
 CALL SP_RegistrarUsuario('ana', 'Ana', 'Ambris', 'ana@example.com', '123', '2002-07-22', 0);
 
-CALL SP_RegistrarUsuario('ana', 'Ana', 'Ambris', 'ana@example.com', '123', '2002-07-22', 0);
-
 CALL SP_RegistrarUsuario('chuy', 'Jesus', 'Osorio', 'chuy@example.com', '123', '2001-04-26', 0);
 
-CALL SP_IniciarSesion('ana@example.com','ana@example.com');
+CALL SP_BuscarIdUsuario('chuy@example.com', @ID);
+select @ID;
+
+CALL SP_ModificarUsuario(2, 'chuy2', '1234', 0);
+
+CALL SP_BorrarUsuario(3);
+
+CALL SP_BuscarUsuarioPorId(2, @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro);
+select @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro;
+
 
 INSERT INTO Estado_Usuario(Estado)
 VALUES ('ACTIVO');
@@ -19,11 +34,7 @@ VALUES ('ACTIVO');
 INSERT INTO Estado_Usuario(Estado)
 VALUES ('INACTIVO');
 
-SELECT * FROM Usuario;
-
-SELECT * FROM Estado_Usuario;
-
-
 CALL IniciarSesion('ana@example.com', '123', @mensaje, @id_usuario);
 SELECT @mensaje, @id_usuario;
+
 

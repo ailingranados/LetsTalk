@@ -20,7 +20,7 @@ CREATE TABLE Usuario (
     Correo 				VARCHAR(100) NOT NULL UNIQUE,
     Contraseña 			VARCHAR(50) NOT NULL,
     Fecha_nacimiento	DATE NOT NULL,
-	Img_perfil				BLOB,
+	Img_perfil			BLOB,
     Estado				INT,
     Fecha_registro		DATETIME,
     
