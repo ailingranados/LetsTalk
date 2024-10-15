@@ -57,6 +57,7 @@ app.post("/create", upload.single('fotoPerfil'), (req, res) => {
         }
     });
 });
+
 // Ruta para manejo de login
 app.post("/login", (req, res) => {
     const { correo, contrasena } = req.body;
@@ -111,3 +112,21 @@ app.put("/modificarUsuario/:ModUsu",
     }
    
 )
+
+app.post("/postlibro", upload.single('fotoPerfil'), (req, res) => {
+    const { titulo, author, editorial, isbn, categoria } = req.body;
+
+    console.log(req.body.titulo);
+
+    const sql = 'CALL SP_RegistrarLibro(?, ?, ?, ?, ?)';
+    const values = [titulo, author, editorial, isbn, categoria];
+
+    db.query(sql, values, (error, results) => {
+        if (error) {
+            console.error("Error al insertar datos:", error);
+            res.status(500).send("Error al insertar datos");
+        } else {
+            res.send("Libro creado con éxito");
+        }
+    });
+});
