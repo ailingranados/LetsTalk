@@ -7,6 +7,12 @@ SELECT * FROM Usuario where Estado = 2; /*usuarios dados de baja*/
 
 SELECT * FROM Estado_Usuario;
 
+SELECT * FROM Categoria;
+
+SELECT * FROM Plataforma;
+
+SELECT * FROM Administrador;
+
 
 /************************************************************************************INSERTS EN BD******/
 
@@ -37,4 +43,20 @@ VALUES ('INACTIVO');
 CALL IniciarSesion('ana@example.com', '123', @mensaje, @id_usuario);
 SELECT @mensaje, @id_usuario;
 
+CALL SP_CrearCategoria('Comedia');
+CALL SP_CrearCategoria('Romantico');
+CALL SP_CrearCategoria('Horror');
+CALL SP_CrearCategoria('Suspenso');
+CALL SP_CrearCategoria('Fantasia');
+CALL SP_CrearCategoria('Historico');
 
+CALL SP_CrearPlataforma('HBO');
+CALL SP_CrearPlataforma('Netflix');
+CALL SP_CrearPlataforma('Prime');
+CALL SP_CrearPlataforma('Paramount+');
+CALL SP_CrearPlataforma('Disney+');
+
+CALL SP_RegistrarAdmin(1000, 'AILIN', 'AILIN', 'CANTU', 'ailin@admin.com', '123', '2002-08-28');
+
+delete from Administrador
+  where Id=0;

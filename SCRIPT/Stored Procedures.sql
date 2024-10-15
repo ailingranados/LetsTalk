@@ -2,6 +2,45 @@
 /************************************************************************************PROCEDURES******/
 
 DELIMITER //
+CREATE PROCEDURE SP_IniciarSesionAdmin(
+    IN IN_correo VARCHAR(100),
+    IN IN_contrasena VARCHAR(50), 
+    OUT OUT_mensaje VARCHAR(255), 
+    OUT OUT_id_usuario INT
+)
+BEGIN
+    DECLARE id_usuario INT;
+
+    -- Intentar obtener el ID del usuario con el correo y la contraseña proporcionados
+    SELECT U.Id
+		INTO id_usuario
+			FROM Usuario U
+				WHERE U.Correo = IN_correo AND U.Contraseña = IN_contrasena
+    LIMIT 1;
+
+    -- Si no se encuentra el usuario, verificar si el correo existe
+    IF id_usuario IS NULL THEN
+        SELECT U.Id
+        INTO id_usuario
+        FROM Usuario U
+        WHERE U.Correo = p_correo
+        LIMIT 1;
+
+        -- Si el correo no existe
+        IF id_usuario IS NULL THEN
+            SET p_mensaje = 'El correo electrónico no existe en Administrador';
+        ELSE
+            SET p_mensaje = 'Correo electrónico o contraseña incorrectos';
+        END IF;
+    ELSE
+        -- Inicio de sesión exitoso
+        SET OUT_mensaje = 'Inicio de sesión exitoso';
+        SET OUT_id_usuario = id_usuario;
+    END IF;
+END //
+DELIMITER ;
+
+DELIMITER //
 CREATE PROCEDURE SP_IniciarSesion(
     IN p_correo VARCHAR(100),
     IN p_contrasena VARCHAR(50), 
@@ -58,6 +97,26 @@ BEGIN
     ) 
     VALUES (
         p_usuario, p_nombre, p_apellido, p_correo, p_contrasena, p_fecha_nacimiento, p_img_perfil, 1, now()
+    );
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE SP_RegistrarAdmin (
+	IN IN_id INT,
+    IN IN_usuario VARCHAR(50),
+    IN IN_nombre VARCHAR(50),
+    IN IN_apellido VARCHAR(50),
+    IN IN_correo VARCHAR(100),
+    IN IN_contrasena VARCHAR(50),
+    IN IN_fecha_nacimiento DATE
+)
+BEGIN
+    INSERT INTO Administrador (
+        Id, Usuario, Nombre, Apellido, Correo, Contraseña, Fecha_nacimiento, Estado, Fecha_registro
+    ) 
+    VALUES (
+        IN_id, IN_usuario, IN_nombre, IN_apellido, IN_correo, IN_contrasena, IN_fecha_nacimiento, 1, now()
     );
 END //
 DELIMITER ;
@@ -136,5 +195,25 @@ BEGIN
 END //
 DELIMITER ;
 
+/***********CREAR CATEGORIA CON NOMBRE******/
+DELIMITER //
+CREATE PROCEDURE SP_CrearCategoria(
+    IN IN_nombre VARCHAR(50)
+)
+BEGIN
+    INSERT INTO Categoria (Nombre) 
+		VALUES (IN_nombre);
+END //
+DELIMITER ;
 
+/***********CREAR PLATAFORMA CON NOMBRE******/
+DELIMITER //
+CREATE PROCEDURE SP_CrearPlataforma(
+    IN IN_nombre VARCHAR(50)
+)
+BEGIN
+    INSERT INTO Plataforma (Nombre) 
+		VALUES (IN_nombre);
+END //
+DELIMITER ;
 
