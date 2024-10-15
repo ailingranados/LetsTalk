@@ -217,3 +217,30 @@ BEGIN
 END //
 DELIMITER ;
 
+
+
+
+DROP PROCEDURE SP_RegistrarLibro
+DELIMITER //
+CREATE PROCEDURE SP_RegistrarLibro (
+    IN IN_titulo VARCHAR(50),
+    IN IN_author VARCHAR(50),
+    IN IN_editorial VARCHAR(100),
+    IN IN_isbn VARCHAR(15),
+    IN categoria INT
+)
+BEGIN
+    INSERT INTO Libros (
+		Titulo,
+		Author,
+		Editorial,
+		ISBN,
+		Categoria	
+    ) 
+    VALUES (
+        IN_titulo, IN_author, IN_editorial, IN_isbn, categoria
+    );
+END //
+DELIMITER ;
+
+

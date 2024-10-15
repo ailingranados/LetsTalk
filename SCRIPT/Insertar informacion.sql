@@ -13,6 +13,7 @@ SELECT * FROM Plataforma;
 
 SELECT * FROM Administrador;
 
+SELECT * FROM libros;
 
 /************************************************************************************INSERTS EN BD******/
 
@@ -58,5 +59,4 @@ CALL SP_CrearPlataforma('Disney+');
 
 CALL SP_RegistrarAdmin(1000, 'AILIN', 'AILIN', 'CANTU', 'ailin@admin.com', '123', '2002-08-28');
 
-delete from Administrador
-  where Id=0;
+
