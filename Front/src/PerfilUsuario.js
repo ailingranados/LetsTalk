@@ -3,9 +3,56 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./Perfil.css";
 import perfilImg from "./Diseño/perfil.jpeg"; 
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+function PerfilUsuario () {
+
+    const [Id, setId] = useState('');
+    //variables de salida
+    const [usuario, setUsuario] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [apellido, setApellido] = useState('');
+    const [correo, setCorreo] = useState('');
+    const [contrasena, setContrasena] = useState('');
+    const [fotoPerfil, setFotoPerfil] = useState(null);
+    const [fechaNacimiento, setFechaNacimiento] = useState('');
 
 
-const PerfilUsuario = () => {
+    useEffect(() => {
+
+        const sesionId = localStorage.getItem('sesion'); // Obtener el ID de la sesión del localStorage
+        if (sesionId) {
+            //setId(sesionId); // Asignar el valor a la variable id
+            console.log("Id de la sesion: ", sesionId);
+
+            axios.get(`http://localhost:3001/getUsuarioPorId/${sesionId}`)
+                .then((resp) => {
+                    console.log("Datos de la respuesta:", resp.data);
+        
+                const usuarioData = resp.data;
+                    // Asigna los valores recibidos a los estados
+                setUsuario(resp.data.O_usuario || 'Usuario no encontrado');
+                setNombre(usuarioData.O_nombre || 'Nombre no encontrado');
+                setApellido(usuarioData.O_apellido || 'Apellido no encontrado');
+                setCorreo(usuarioData.O_correo || 'Correo no encontrado');
+                setContrasena(usuarioData.O_contrasena || 'Contraseña no encontrada');
+                setFechaNacimiento(usuarioData.O_fecha_nacimiento || 'Fecha no encontrada');
+                setFotoPerfil(usuarioData.O_img_perfil || '');
+    
+                console.log(usuarioData);
+                })
+                .catch((error) => {
+                    console.error("Hubo un error al obtener usuario por id: ", error);
+                });
+        }
+    }, []);
+    
+    
+
+    
+
+
   return (
     <div className="container mt-5">
       <div className="row">
@@ -18,16 +65,16 @@ const PerfilUsuario = () => {
                 className="avatar"
               />
               <h4>
-                Usuario: <span id="usuario">Daniela</span>
+                Usuario: <span id="usuario">{usuario}</span>
               </h4>
               <h4>
-                Correo: <span id="correo">dany23@gmail.com</span>
+                Correo: <span id="correo">{correo}</span>
               </h4>
               <h4>
-                Nombre: <span id="nombre">Daniela</span>
+                Nombre: <span id="nombre">{nombre}</span>
               </h4>
               <h4>
-                Apellido Paterno: <span id="apellidoP">Puentes</span>
+                Apellido Paterno: <span id="apellidoP">{apellido}</span>
               </h4>
               <h4>
                 Apellido Materno: <span id="apellidoM">Dominguez</span>
@@ -43,6 +90,6 @@ const PerfilUsuario = () => {
       </div>
     </div>
   );
-};
+}
 
 export default PerfilUsuario;

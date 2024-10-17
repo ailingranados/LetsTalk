@@ -33,7 +33,7 @@ const Login = () => {
 
             if (id_usuario > 0) {
                 localStorage.setItem('sesion', id_usuario); // Guardar el ID del usuario en el localStorage
-                navigate('/Home'); // Usar navigate para redirigir al usuario a la página de inicio
+                navigate('/perfil'); // Usar navigate para redirigir al usuario a la página de inicio
 
             }
         } catch (error) {

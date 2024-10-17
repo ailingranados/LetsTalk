@@ -130,3 +130,23 @@ app.post("/postlibro", upload.single('fotoPerfil'), (req, res) => {
         }
     });
 });
+
+app.get("/getUsuarioPorId/:id", (req, res) => {
+    const id_usuario = req.params.id;
+    console.log("ID recibido:", id_usuario); // Verificar que el ID se recibe correctamente
+
+    // Llamar al procedimiento almacenado
+    db.query(
+        'CALL SP_BuscarUsuarioPorId(?, @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro); SELECT @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro;',
+        [id_usuario],
+        (err, data) => {
+            if (err) {
+                console.error("Error al obtener el usuario por id:", err); // Imprimir el error para depuración
+                res.status(500).json({ error: "FATAL ERROR al obtener el usuario por id" });
+            } else {
+                console.log("Datos devueltos:", data); // Verificar la estructura de la respuesta
+                res.json(data[1][0]); // Asumimos que la información relevante está en data[1][0]
+            }
+        }
+    );
+});
