@@ -32,15 +32,16 @@ function PerfilUsuario () {
         
                 const usuarioData = resp.data;
                     // Asigna los valores recibidos a los estados
-                setUsuario(resp.data.O_usuario || 'Usuario no encontrado');
-                setNombre(usuarioData.O_nombre || 'Nombre no encontrado');
-                setApellido(usuarioData.O_apellido || 'Apellido no encontrado');
-                setCorreo(usuarioData.O_correo || 'Correo no encontrado');
-                setContrasena(usuarioData.O_contrasena || 'Contraseña no encontrada');
-                setFechaNacimiento(usuarioData.O_fecha_nacimiento || 'Fecha no encontrada');
-                setFotoPerfil(usuarioData.O_img_perfil || '');
+                setUsuario(usuarioData.O_usuario);
+                setNombre(usuarioData.O_nombre);
+                setApellido(usuarioData.O_apellido);
+                setCorreo(usuarioData.O_correo);
+                setContrasena(usuarioData.O_contrasena);
+                setFechaNacimiento(usuarioData.O_fecha_nacimiento);
+                setFotoPerfil(usuarioData.O_img_perfil);
     
                 console.log(usuarioData);
+                console.log("usuario", usuario);
                 })
                 .catch((error) => {
                     console.error("Hubo un error al obtener usuario por id: ", error);
@@ -49,7 +50,10 @@ function PerfilUsuario () {
     }, []);
     
     
-
+    useEffect(() => {
+      console.log("Datos actualizados del usuario:", usuario);
+  }, [usuario]);
+  
     
 
 
@@ -76,9 +80,7 @@ function PerfilUsuario () {
               <h4>
                 Apellido Paterno: <span id="apellidoP">{apellido}</span>
               </h4>
-              <h4>
-                Apellido Materno: <span id="apellidoM">Dominguez</span>
-              </h4>
+             
               <div className="btn-group mt-3" role="group" aria-label="Basic example">
                 <div className="buttons">
                 <Link to="/editarperfil">Editar Perfil</Link>

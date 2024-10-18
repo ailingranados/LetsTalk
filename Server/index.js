@@ -143,10 +143,33 @@ app.get("/getUsuarioPorId/:id", (req, res) => {
             if (err) {
                 console.error("Error al obtener el usuario por id:", err); // Imprimir el error para depuración
                 res.status(500).json({ error: "FATAL ERROR al obtener el usuario por id" });
-            } else {
+            } 
+            
+            console.log("Datos devueltos:", data);
+
+            if (data[1] && data[1][0]) {
+                const result = data[1][0];
+                const cleanedData = {
+                    O_usuario: result['@O_usuario'],
+                    O_nombre: result['@O_nombre'],
+                    O_apellido: result['@O_apellido'],
+                    O_correo: result['@O_correo'],
+                    O_contrasena: result['@O_contrasena'],
+                    O_fecha_nacimiento: result['@O_fecha_nacimiento'],
+                    O_img_perfil: result['@O_img_perfil'],
+                    O_estado: result['@O_estado'],
+                    O_fecha_registro: result['@O_fecha_registro']
+                };
+                return res.json(cleanedData);
+             }
+            else {
                 console.log("Datos devueltos:", data); // Verificar la estructura de la respuesta
                 res.json(data[1][0]); // Asumimos que la información relevante está en data[1][0]
+            
             }
+            
         }
     );
+
+    
 });
