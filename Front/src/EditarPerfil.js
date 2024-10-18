@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 
 const EditarPerfil = () => {
   // Estado para los campos del formulario
-  const [correo, setCorreo] = useState("dany23@gmail.com");
-  const [nombre, setNombre] = useState("Daniela");
-  const [apellidoP, setApellidoP] = useState("Puentes");
-  const [apellidoM, setApellidoM] = useState("Dominguez");
-  const [fechaNacimiento, setFechaNacimiento] = useState("2000-01-25");
+  const [correo, setCorreo] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellidoP, setApellidoP] = useState("");
+  const [apellidoM, setApellidoM] = useState("");
+  const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [fotoPerfil, setFotoPerfil] = useState(null);
 
   // Función para manejar el envío del formulario
@@ -20,6 +20,35 @@ const EditarPerfil = () => {
     console.log("Datos enviados:", { correo, nombre, apellidoP, apellidoM, fechaNacimiento, fotoPerfil });
   };
 
+  useEffect(() => {
+
+    const sesionId = localStorage.getItem('sesion'); // Obtener el ID de la sesión del localStorage
+    if (sesionId) {
+        //setId(sesionId); // Asignar el valor a la variable id
+        console.log("Id de la sesion: ", sesionId);
+
+        axios.get(`http://localhost:3001/getUsuarioPorId/${sesionId}`)
+            .then((resp) => {
+                console.log("Datos de la respuesta:", resp.data);
+    
+            const usuarioData = resp.data;
+                // Asigna los valores recibidos a los estados
+            setUsuario(usuarioData.O_usuario);
+            setNombre(usuarioData.O_nombre);
+            setApellido(usuarioData.O_apellido);
+            setCorreo(usuarioData.O_correo);
+            setContrasena(usuarioData.O_contrasena);
+            setFechaNacimiento(usuarioData.O_fecha_nacimiento);
+            setFotoPerfil(usuarioData.O_img_perfil);
+
+            console.log(usuarioData);
+            console.log("usuario", usuario);
+            })
+            .catch((error) => {
+                console.error("Hubo un error al obtener usuario por id: ", error);
+            });
+    }
+}, []);
   return (
     <div className="container mt-5">
       <div className="row row-cols-1 row-cols-md-2 g-4">

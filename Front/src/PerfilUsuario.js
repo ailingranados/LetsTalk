@@ -5,6 +5,7 @@ import perfilImg from "./Diseño/perfil.jpeg";
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import EditarPerfil from "./EditarPerfil";
 
 function PerfilUsuario () {
 
@@ -58,6 +59,7 @@ function PerfilUsuario () {
 
 
   return (
+    <>
     <div className="container mt-5">
       <div className="row">
         <div className="col-md-6 mx-auto">
@@ -91,6 +93,9 @@ function PerfilUsuario () {
         </div>
       </div>
     </div>
+
+
+</>
   );
 }
 
