@@ -180,15 +180,17 @@ app.post("/ModUsuarioPorId/:id", upload.single('fotoPerfil'), (req, res) => {
     const fotoPerfil = req.file ? req.file.path : null; // Ruta del archivo cargado
 
     const NueNom = req.body.nuevoNombre;
-    const NueUsu = req.body.nuevoUsuario;
-    const NueCon = req.body.nuevoContrasena;
+    const NueUsu = req.body.nuevoUsu;
+    const NueCor = req.body.nuevoCorr;
+    const NueApe = req.body.nuevoApe;
+    const NueFoto = req.file ? req.file.path : null; // Ruta del archivo cargado
 
     console.log("ID recibido:", id_usuario);
 
     // Llamar al procedimiento almacenado
     db.query(
-        'CALL SP_ModificarUsuario(?, ?, ?, ?, ?);',
-        [id_usuario, NueNom, NueUsu, NueCon, fotoPerfil],
+        'CALL SP_ModificarUsuario(?, ?, ?, ?, ?, ?);',
+        [id_usuario, NueNom, NueUsu, NueCor,NueApe, NueFoto],
         (err, data) => {
             if (err) {
                 console.error("Error al modificar usuario:", err); // Imprimir el error para depuración
@@ -207,6 +209,26 @@ app.put("/modificarContrasena/:Id",
 
         db.query("CALL SP_CambiarContra (?, ?)",
             [UsuId, NueCon],
+            (err, respuesta)=>{
+                if(err){
+                    resp.json({"status": 'Error'});
+                    console.log(err);
+                }else{
+                    resp.json({"status": 'Ok'});
+                }
+            }
+        )
+
+    }
+   
+)
+
+app.put("/InactivarPerfil/:Id", 
+    (req, resp)=>{ 
+        const UsuId = req.params.Id;
+
+        db.query("CALL SP_BorrarUsuario (?)",
+            [UsuId],
             (err, respuesta)=>{
                 if(err){
                     resp.json({"status": 'Error'});

@@ -1,37 +1,32 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Perfil.css";
-import perfilImg from "./Diseño/perfil.jpeg";
-import { Link } from 'react-router-dom';
+// import perfilImg from "./Diseño/perfil.jpeg";
+// import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
 import CambioContrasena from "./CambioContrasena";
+import { useNavigate } from 'react-router-dom';
 
 const EditarPerfil = () => {
-  
-  const [Id, setId] = useState('');
- 
-  const [correo, setCorreo] = useState("");
-  const [fechaNacimiento, setFechaNacimiento] = useState("2000-01-25");
-  const [fechaRegistro, setFechaRegistro] = useState("2000-01-25");
+  // Desestructurar los valores desde el state
+
 
   const [usuario, setUsuario] = useState("");
-  const [contrasena, setContrasena] = useState("");
-  const [contrasena2, setContrasena2] = useState("");
   const [nombre, setNombre] = useState("");
-  const [apellidoP, setApellidoP] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const [fechaNacimiento, setFechaNacimiento] = useState("");
+  const [fechaRegistro, setFechaRegistro] = useState("");
+  const [estado, setEstado] = useState("");
   const [fotoPerfil, setFotoPerfil] = useState(null);
-
-
   const [verContrasena, setVerContrasena] = useState(false);
 
-  // Función para manejar el envío del formulario
-  const handleSubmit = (e) => {
-    e.preventDefault();
+
+  const navigate = useNavigate();
 
 
-    console.log("Datos enviados:", { usuario, contrasena, contrasena2, nombre, apellidoP, fotoPerfil });
-  };
 
   useEffect(() => {
 
@@ -40,18 +35,80 @@ const EditarPerfil = () => {
       //setId(sesionId); // Asignar el valor a la variable id
       console.log("Id de la sesion: ", sesionId);
 
-      axios.post(`http://localhost:3001/ModUsuarioPorId/${sesionId}`, { nombre, usuario, contrasena, fotoPerfil })
+      axios.get(`http://localhost:3001/getUsuarioPorId/${sesionId}`)
+        .then((resp) => {
+          console.log("Datos de la respuesta:", resp.data);
+
+          const usuarioData = resp.data;
+          // Asigna los valores recibidos a los estados
+          setUsuario(usuarioData.O_usuario);
+          setNombre(usuarioData.O_nombre);
+          setApellido(usuarioData.O_apellido);
+          setCorreo(usuarioData.O_correo);
+          setContrasena(usuarioData.O_contrasena);
+          setFechaNacimiento(usuarioData.O_fecha_nacimiento);
+          setFotoPerfil(usuarioData.O_img_perfil);
+          setFechaRegistro(usuarioData.O_fecha_registro);
+          setEstado(usuarioData.O_estado);
+
+          console.log(usuarioData);
+          console.log("usuario", usuario);
+        })
+        .catch((error) => {
+          console.error("Hubo un error al obtener usuario por id: ", error);
+        });
+    }
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+
+    const sesionId = localStorage.getItem('sesion'); // Obtener el ID de la sesión del localStorage
+    if (sesionId) {
+      //setId(sesionId); // Asignar el valor a la variable id
+      console.log("Id de la sesion: ", sesionId);
+
+      axios.post(`http://localhost:3001/ModUsuarioPorId/${sesionId}`, {
+        nuevoNombre: nombre,
+        nuevoUsu: usuario,
+        nuevoCorr: correo,
+        nuevoApe: apellido,
+        nuevoFoto: fotoPerfil
+      })
         .then((resp) => {
 
 
           console.log("modificacion exitosa");
+          alert("Usuario Modificado");
+          navigate('/perfil');
         })
         .catch((error) => {
           console.error("Hubo un error al modificar usuario", error);
         });
     }
-  }, []);
+    console.log("Datos enviados:", { usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil, estado, fechaRegistro });
+  };
 
+ 
+  const InactivarUsu  = () => {
+    const sesionId = localStorage.getItem('sesion');
+   
+    axios.put(`http://localhost:3001/InactivarPerfil/${sesionId}`, {
+        
+    }).then(
+        (resp) => {
+            if (resp.data.status === 'Ok') {
+                alert("Usuario inactivado");
+                navigate('/login');
+               
+            } else {
+                alert("Error al inactivar usuario");
+            }
+        }
+    )
+
+};
 
   return (
 
@@ -63,7 +120,7 @@ const EditarPerfil = () => {
               <br />
               <img
                 id="imagenPerfil"
-                src={perfilImg}
+                src={fotoPerfil}
                 alt="Imagen del usuario"
                 className="avatar mx-auto"
               />
@@ -78,7 +135,7 @@ const EditarPerfil = () => {
                 Nombre: <span id="nombre">{nombre}</span>
               </h4>
               <h4>
-                Apellido Paterno: <span id="apellidoP">{apellidoP}</span>
+                Apellido Paterno: <span id="apellidoP">{apellido}</span>
               </h4>
               <h4>
                 Contraseña: <span id="contrasena">{contrasena}</span>
@@ -89,8 +146,12 @@ const EditarPerfil = () => {
               <h4>
                 Fecha Nacimiento: <span id="FechaN">{fechaNacimiento}</span>
               </h4>
+              <h4>
+                Estado: <span id="estado">{estado}</span>
+              </h4>
               <div className="btn-group mt-3" role="group" aria-label="Basic example">
-                <button type="button" className="btn btn-danger" id="inactivar">
+                <button type="button" className="btn btn-danger" id="inactivar" onClick={(InactivarUsu)}>
+                  
                   Inactivar Perfil
                 </button>
               </div>
@@ -144,8 +205,8 @@ const EditarPerfil = () => {
                     type="text"
                     className="form-control"
                     id="apellidoP"
-                    value={apellidoP}
-                    onChange={(e) => setApellidoP(e.target.value)}
+                    value={apellido}
+                    onChange={(e) => setApellido(e.target.value)}
                     required
                   />
                 </div>
@@ -160,21 +221,20 @@ const EditarPerfil = () => {
                   />
                 </div>
                 <div className=" mt-3" role="group" aria-label="Basic example">
-                  <div className="buttons">
-                    <Link to="#">Guardar Cambios</Link> {/* AsegÃºrate de tener la funciÃ³n guardarCambios definida */}
+                  <button type="button" onClick={handleSubmit}>
+                    Guardar Cambios
+                  </button>
 
-                  </div>
-                  
                 </div>
                 <div className=" mt-2 " role="group" aria-label="Basic example">
-                <div className="buttons">
+                  <div className="buttons">
 
                     <button
                       /**al presionar el boton pasa datos */
                       onClick=
                       {
                         () => {
-                            setVerContrasena(true);
+                          setVerContrasena(true);
 
                         }
                       }
@@ -182,8 +242,8 @@ const EditarPerfil = () => {
                     >Cambiar Contraseña</button>
 
                   </div>
-                  </div>
-                  <CambioContrasena verMod={verContrasena} ChangeMod={setVerContrasena}/>
+                </div>
+                <CambioContrasena verMod={verContrasena} ChangeMod={setVerContrasena} />
               </form>
 
             </div>

@@ -250,7 +250,8 @@ CREATE PROCEDURE SP_ModificarUsuario (
     IN IN_Id INT,
     IN IN_nombre VARCHAR(50),
     IN IN_usuario VARCHAR(50),
-    IN IN_contrasena VARCHAR(50),
+    IN IN_correo VARCHAR(50),
+    IN IN_apellido VARCHAR(50),
     IN IN_img_perfil BLOB
 )
 BEGIN
@@ -259,7 +260,8 @@ BEGIN
 		SET 
         Nombre = IN_nombre,
 		Usuario = IN_usuario, 
-		Contraseña = IN_contrasena,
+		Correo = IN_correo,
+        Apellido = IN_apellido,
 		Img_perfil = IN_img_perfil
 			WHERE Id = IN_Id;
 END //

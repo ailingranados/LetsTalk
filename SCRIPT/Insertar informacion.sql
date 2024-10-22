@@ -29,7 +29,7 @@ select @ID;
 
 CALL SP_ModificarUsuario(2, 'chuy2', '1234', 0);
 
-CALL SP_BorrarUsuario(3);
+CALL SP_BorrarUsuario(4);
 
 CALL SP_BuscarUsuarioPorId(2, @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro);
 select @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro;
@@ -64,6 +64,6 @@ SELECT @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_na
 
 CALL SP_RegistrarLibro('Orgullo y prejuicio', 'jane austen', 'planeta', '123456789', 2);
 
-CALL SP_ModificarUsuario(2, 'chuy2',  'jesus2', '12342', 0);
+CALL SP_ModificarUsuario(2, 'chuy2',  'jesus2', 'chuy2@gmail','osorio', 0);
 
 CALL SP_CambiarContra (3, 'ailin')
