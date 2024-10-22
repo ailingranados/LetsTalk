@@ -59,4 +59,11 @@ CALL SP_CrearPlataforma('Disney+');
 
 CALL SP_RegistrarAdmin(1000, 'AILIN', 'AILIN', 'CANTU', 'ailin@admin.com', '123', '2002-08-28');
 
+CALL SP_BuscarUsuarioPorId('2', @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro);
+SELECT @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro;
 
+CALL SP_RegistrarLibro('Orgullo y prejuicio', 'jane austen', 'planeta', '123456789', 2);
+
+CALL SP_ModificarUsuario(2, 'chuy2',  'jesus2', '12342', 0);
+
+CALL SP_CambiarContra (3, 'ailin')

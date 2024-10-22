@@ -1,3 +1,172 @@
+CREATE DATABASE LetsTalk;
+
+USE LetsTalk;
+
+/*DROP DATABASE LETSTALK
+
+/************************************************************************************TABLAS DE USUARIO******/
+
+CREATE TABLE Estado_Usuario(
+	Id 				INT AUTO_INCREMENT PRIMARY KEY,
+	Estado 			VARCHAR(15) NOT NULL
+	
+);
+
+CREATE TABLE Usuario (
+    Id 					INT AUTO_INCREMENT PRIMARY KEY,
+	Usuario				VARCHAR(50) NOT NULL UNIQUE,
+    Nombre 				VARCHAR(50) NOT NULL,
+    Apellido 			VARCHAR(50) NOT NULL,
+    Correo 				VARCHAR(100) NOT NULL UNIQUE,
+    Contraseña 			VARCHAR(50) NOT NULL,
+    Fecha_nacimiento	DATE NOT NULL,
+	Img_perfil			BLOB,
+    Estado				INT,
+    Fecha_registro		DATETIME,
+    
+    FOREIGN KEY (Estado) REFERENCES Estado_Usuario(Id)
+);
+
+/*DROP TABLE Administrador*/
+CREATE TABLE Administrador (
+    Id 					INT PRIMARY KEY,
+	Usuario				VARCHAR(50) NOT NULL UNIQUE,
+    Nombre 				VARCHAR(50) NOT NULL,
+    Apellido 			VARCHAR(50) NOT NULL,
+    Correo 				VARCHAR(100) NOT NULL UNIQUE,
+    Contraseña 			VARCHAR(50) NOT NULL,
+    Fecha_nacimiento	DATE NOT NULL,
+	
+    Estado				INT,
+    Fecha_registro		DATETIME,
+    
+    FOREIGN KEY (Estado) REFERENCES Estado_Usuario(Id)
+);
+
+
+/*************************************************************************************TABLAS DE LISTBOX******/
+CREATE TABLE Categoria(
+Id 					INT AUTO_INCREMENT PRIMARY KEY,
+Nombre 				VARCHAR(50)
+);
+
+CREATE TABLE Plataforma(
+Id 					INT AUTO_INCREMENT PRIMARY KEY,
+Nombre 				VARCHAR(50)
+);
+
+/*************************************************************************************TABLAS DE RESEÑAS******/
+CREATE TABLE Libros(
+Id 					INT AUTO_INCREMENT PRIMARY KEY,
+Titulo 				VARCHAR(50),
+Author 				VARCHAR(50),
+Editorial 			VARCHAR(50),
+ISBN 				VARCHAR(15),
+Categoria			INT,
+
+/*LLAVES FORANEAS*/
+
+ CONSTRAINT FK_Categoria_Libros
+	FOREIGN KEY (Categoria) 
+		REFERENCES Categoria(Id)
+);
+
+CREATE TABLE Peliculas(
+Id 					INT AUTO_INCREMENT PRIMARY KEY,
+Titulo 				VARCHAR(50),
+Director 			VARCHAR(50),
+Actor_1 			VARCHAR(50),
+Actor_2 			VARCHAR(50),
+Duracion			INT,
+Categoria			INT,
+Plataforma			INT,
+
+/*LLAVES FORANEAS*/
+ CONSTRAINT FK_Categoria_Peliculas
+	FOREIGN KEY (Categoria) 
+		REFERENCES Categoria(Id),
+	
+ CONSTRAINT FK_Plataforma_Peliculas
+	FOREIGN KEY (Plataforma) 
+		REFERENCES Plataforma(Id)   
+);
+
+CREATE TABLE Series(
+Id 					INT AUTO_INCREMENT PRIMARY KEY,
+Titulo 				VARCHAR(50),
+Actor_1 			VARCHAR(50),
+Actor_2 			VARCHAR(50),
+Finalizada 			TINYINT(1) NOT NULL,
+Temporadas			INT,
+Capitulos			INT,
+Plataforma			INT,
+Categoria			INT,
+
+
+/*LLAVES FORANEAS*/
+ CONSTRAINT FK_Categoria_Series
+	FOREIGN KEY (Categoria) 
+		REFERENCES Categoria(Id),
+        
+ CONSTRAINT FK_Plataforma_Series
+	FOREIGN KEY (Plataforma) 
+		REFERENCES Plataforma(Id)        
+);
+
+/*************************************************************************************TABLAS DE RELACIONES******/
+
+CREATE TABLE Usuario_Libros(
+Id 					INT AUTO_INCREMENT PRIMARY KEY,
+Usuario				INT,
+Libro				INT,
+Calificacion		INT,
+Fecha				DATETIME NOT NULL,
+
+/*LLAVES FORANEAS*/
+ CONSTRAINT FK_IdUsuario_Libros
+	FOREIGN KEY (Usuario) 
+		REFERENCES Usuario(Id),
+        
+ CONSTRAINT FK_IdLibro
+	FOREIGN KEY (Libro) 
+		REFERENCES Libros(Id)        
+);
+
+CREATE TABLE Usuario_Peliculas(
+Id 					INT AUTO_INCREMENT PRIMARY KEY,
+Usuario				INT,
+Pelicula			INT,
+Calificacion		INT,
+Fecha				DATETIME NOT NULL,
+
+/*LLAVES FORANEAS*/
+ CONSTRAINT FK_IdUsuario_Pelicula
+	FOREIGN KEY (Usuario) 
+		REFERENCES Usuario(Id),
+        
+ CONSTRAINT FK_IdPelicula
+	FOREIGN KEY (Pelicula) 
+		REFERENCES Peliculas(Id)        
+);
+
+CREATE TABLE Usuario_Series(
+Id 					INT AUTO_INCREMENT PRIMARY KEY,
+Usuario				INT,
+Serie				INT,
+Calificacion		INT,
+Fecha				DATETIME NOT NULL,
+
+/*LLAVES FORANEAS*/
+ CONSTRAINT FK_IdUsuario_Serie
+	FOREIGN KEY (Usuario) 
+		REFERENCES Usuario(Id),
+        
+ CONSTRAINT FK_IdSerie
+	FOREIGN KEY (Serie) 
+		REFERENCES Series(Id)        
+);
+
+
 
 /************************************************************************************PROCEDURES******/
 
@@ -120,7 +289,7 @@ BEGIN
     );
 END //
 DELIMITER ;
-/*
+
 DELIMITER //
 CREATE PROCEDURE SP_ModificarUsuario (
     IN IN_Id INT,
@@ -138,7 +307,6 @@ BEGIN
 			WHERE Id = IN_Id;
 END //
 DELIMITER ;
-*/
 
 DELIMITER //
 CREATE PROCEDURE SP_BorrarUsuario (
@@ -244,38 +412,51 @@ BEGIN
 END //
 DELIMITER ;
 
-Drop procedure SP_ModificarUsuario
-DELIMITER //
-CREATE PROCEDURE SP_ModificarUsuario (
-    IN IN_Id INT,
-    IN IN_nombre VARCHAR(50),
-    IN IN_usuario VARCHAR(50),
-    IN IN_contrasena VARCHAR(50),
-    IN IN_img_perfil BLOB
-)
-BEGIN
+INSERT INTO Estado_Usuario(Estado)
+VALUES ('ACTIVO');
 
-	UPDATE Usuario
-		SET 
-        Nombre = IN_nombre,
-		Usuario = IN_usuario, 
-		Contraseña = IN_contrasena,
-		Img_perfil = IN_img_perfil
-			WHERE Id = IN_Id;
-END //
-DELIMITER ;
+INSERT INTO Estado_Usuario(Estado)
+VALUES ('INACTIVO');
 
-DELIMITER //
-CREATE PROCEDURE SP_CambiarContra (
-    IN IN_Id INT,
-    IN IN_contra VARCHAR(50)
-)
-BEGIN
+CALL SP_CrearCategoria('Comedia');
+CALL SP_CrearCategoria('Romantico');
+CALL SP_CrearCategoria('Horror');
+CALL SP_CrearCategoria('Suspenso');
+CALL SP_CrearCategoria('Fantasia');
+CALL SP_CrearCategoria('Historico');
 
-	UPDATE Usuario
-		SET 
-        Contraseña = IN_contra
-			WHERE Id = IN_Id;
-END //
-DELIMITER ;
+CALL SP_CrearPlataforma('HBO');
+CALL SP_CrearPlataforma('Netflix');
+CALL SP_CrearPlataforma('Prime');
+CALL SP_CrearPlataforma('Paramount+');
+CALL SP_CrearPlataforma('Disney+');
 
+/*
+CALL SP_RegistrarAdmin(1000, 'AILIN', 'AILIN', 'CANTU', 'ailin@admin.com', '123', '2002-08-28');
+
+CALL SP_BuscarUsuarioPorId('2', @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro);
+SELECT @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro;
+
+CALL SP_RegistrarLibro('Orgullo y prejuicio', 'jane austen', 'planeta', '123456789', 2);
+
+CALL IniciarSesion('ana@example.com', '123', @mensaje, @id_usuario);
+SELECT @mensaje, @id_usuario;
+
+
+INSERT INTO Usuario (USUARIO, NOMBRE, APELLIDO, CORREO, CONTRASENA, FECHA_NACIMIENTO, ESTADO, FECHA_REGISTRO)
+VALUES ('ana', 'Ana', 'Ambris', 'ana@example.com', '123', '2002-07-22', 1, NOW());
+
+CALL SP_RegistrarUsuario('ana', 'Ana', 'Ambris', 'ana@example.com', '123', '2002-07-22', 0);
+
+CALL SP_RegistrarUsuario('chuy', 'Jesus', 'Osorio', 'chuy@example.com', '123', '2001-04-26', 0);
+
+CALL SP_BuscarIdUsuario('chuy@example.com', @ID);
+select @ID;
+
+CALL SP_ModificarUsuario(2, 'chuy2', '1234', 0);
+
+CALL SP_BorrarUsuario(3);
+
+CALL SP_BuscarUsuarioPorId(2, @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro);
+select @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro;
+*/

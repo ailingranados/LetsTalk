@@ -1,55 +1,60 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./Perfil.css"; 
-import perfilImg from "./Diseño/perfil.jpeg"; 
+import "./Perfil.css";
+import perfilImg from "./Diseño/perfil.jpeg";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect } from 'react';
+import CambioContrasena from "./CambioContrasena";
 
 const EditarPerfil = () => {
-  // Estado para los campos del formulario
+  
+  const [Id, setId] = useState('');
+ 
   const [correo, setCorreo] = useState("");
+  const [fechaNacimiento, setFechaNacimiento] = useState("2000-01-25");
+  const [fechaRegistro, setFechaRegistro] = useState("2000-01-25");
+
+  const [usuario, setUsuario] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const [contrasena2, setContrasena2] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellidoP, setApellidoP] = useState("");
-  const [apellidoM, setApellidoM] = useState("");
-  const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [fotoPerfil, setFotoPerfil] = useState(null);
+
+
+  const [verContrasena, setVerContrasena] = useState(false);
 
   // Función para manejar el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí puedes manejar la lógica para enviar los datos al servidor
-    console.log("Datos enviados:", { correo, nombre, apellidoP, apellidoM, fechaNacimiento, fotoPerfil });
+
+
+    console.log("Datos enviados:", { usuario, contrasena, contrasena2, nombre, apellidoP, fotoPerfil });
   };
 
   useEffect(() => {
 
     const sesionId = localStorage.getItem('sesion'); // Obtener el ID de la sesión del localStorage
     if (sesionId) {
-        //setId(sesionId); // Asignar el valor a la variable id
-        console.log("Id de la sesion: ", sesionId);
+      //setId(sesionId); // Asignar el valor a la variable id
+      console.log("Id de la sesion: ", sesionId);
 
-        axios.get(`http://localhost:3001/getUsuarioPorId/${sesionId}`)
-            .then((resp) => {
-                console.log("Datos de la respuesta:", resp.data);
-    
-            const usuarioData = resp.data;
-                // Asigna los valores recibidos a los estados
-            setUsuario(usuarioData.O_usuario);
-            setNombre(usuarioData.O_nombre);
-            setApellido(usuarioData.O_apellido);
-            setCorreo(usuarioData.O_correo);
-            setContrasena(usuarioData.O_contrasena);
-            setFechaNacimiento(usuarioData.O_fecha_nacimiento);
-            setFotoPerfil(usuarioData.O_img_perfil);
+      axios.post(`http://localhost:3001/ModUsuarioPorId/${sesionId}`, { nombre, usuario, contrasena, fotoPerfil })
+        .then((resp) => {
 
-            console.log(usuarioData);
-            console.log("usuario", usuario);
-            })
-            .catch((error) => {
-                console.error("Hubo un error al obtener usuario por id: ", error);
-            });
+
+          console.log("modificacion exitosa");
+        })
+        .catch((error) => {
+          console.error("Hubo un error al modificar usuario", error);
+        });
     }
-}, []);
+  }, []);
+
+
   return (
+
     <div className="container mt-5">
       <div className="row row-cols-1 row-cols-md-2 g-4">
         <div className="col">
@@ -64,7 +69,7 @@ const EditarPerfil = () => {
               />
               <br />
               <h4>
-                Usuario: <span id="usuario">Daniela</span>
+                Usuario: <span id="usuario">{usuario}</span>
               </h4>
               <h4>
                 Correo: <span id="correo">{correo}</span>
@@ -76,7 +81,13 @@ const EditarPerfil = () => {
                 Apellido Paterno: <span id="apellidoP">{apellidoP}</span>
               </h4>
               <h4>
-                Apellido Materno: <span id="apellidoM">{apellidoM}</span>
+                Contraseña: <span id="contrasena">{contrasena}</span>
+              </h4>
+              <h4>
+                Fecha Registro: <span id="FechaR">{fechaRegistro}</span>
+              </h4>
+              <h4>
+                Fecha Nacimiento: <span id="FechaN">{fechaNacimiento}</span>
               </h4>
               <div className="btn-group mt-3" role="group" aria-label="Basic example">
                 <button type="button" className="btn btn-danger" id="inactivar">
@@ -94,6 +105,17 @@ const EditarPerfil = () => {
             </div>
             <div className="card-body">
               <form id="formulario" onSubmit={handleSubmit}>
+                <div className="form-group mb-3">
+                  <label htmlFor="correo">Usuario</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="correo"
+                    value={usuario}
+                    onChange={(e) => setUsuario(e.target.value)}
+                    required
+                  />
+                </div>
                 <div className="form-group mb-3">
                   <label htmlFor="correo">Correo</label>
                   <input
@@ -127,28 +149,7 @@ const EditarPerfil = () => {
                     required
                   />
                 </div>
-                <div className="form-group mb-3">
-                  <label htmlFor="apellidoM">Apellido Materno</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="apellidoM"
-                    value={apellidoM}
-                    onChange={(e) => setApellidoM(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="form-group mb-3">
-                  <label htmlFor="f_nacimiento">Fecha de Nacimiento</label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="f_nacimiento"
-                    value={fechaNacimiento}
-                    onChange={(e) => setFechaNacimiento(e.target.value)}
-                    required
-                  />
-                </div>
+
                 <div className="form-group mb-3">
                   <label htmlFor="imagen">Imagen</label>
                   <input
@@ -158,17 +159,39 @@ const EditarPerfil = () => {
                     onChange={(e) => setFotoPerfil(e.target.files[0])}
                   />
                 </div>
-                <div className="btn-group mt-3" role="group" aria-label="Basic example">
-                    <div className="buttons">
-                        <Link to="#">Guardar Cambios</Link> {/* Asegúrate de tener la función guardarCambios definida */}
-                    </div>
-</div>
+                <div className=" mt-3" role="group" aria-label="Basic example">
+                  <div className="buttons">
+                    <Link to="#">Guardar Cambios</Link> {/* AsegÃºrate de tener la funciÃ³n guardarCambios definida */}
+
+                  </div>
+                  
+                </div>
+                <div className=" mt-2 " role="group" aria-label="Basic example">
+                <div className="buttons">
+
+                    <button
+                      /**al presionar el boton pasa datos */
+                      onClick=
+                      {
+                        () => {
+                            setVerContrasena(true);
+
+                        }
+                      }
+
+                    >Cambiar Contraseña</button>
+
+                  </div>
+                  </div>
+                  <CambioContrasena verMod={verContrasena} ChangeMod={setVerContrasena}/>
               </form>
+
             </div>
           </div>
         </div>
       </div>
     </div>
+
   );
 };
 

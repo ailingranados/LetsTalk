@@ -131,6 +131,7 @@ app.post("/postlibro", upload.single('fotoPerfil'), (req, res) => {
     });
 });
 
+
 app.get("/getUsuarioPorId/:id", (req, res) => {
     const id_usuario = req.params.id;
     console.log("ID recibido:", id_usuario); // Verificar que el ID se recibe correctamente
@@ -173,3 +174,49 @@ app.get("/getUsuarioPorId/:id", (req, res) => {
 
     
 });
+
+app.post("/ModUsuarioPorId/:id", upload.single('fotoPerfil'), (req, res) => {
+    const id_usuario = req.params.id;
+    const fotoPerfil = req.file ? req.file.path : null; // Ruta del archivo cargado
+
+    const NueNom = req.body.nuevoNombre;
+    const NueUsu = req.body.nuevoUsuario;
+    const NueCon = req.body.nuevoContrasena;
+
+    console.log("ID recibido:", id_usuario);
+
+    // Llamar al procedimiento almacenado
+    db.query(
+        'CALL SP_ModificarUsuario(?, ?, ?, ?, ?);',
+        [id_usuario, NueNom, NueUsu, NueCon, fotoPerfil],
+        (err, data) => {
+            if (err) {
+                console.error("Error al modificar usuario:", err); // Imprimir el error para depuración
+                res.status(500).json({ error: "FATAL ERROR al modificar usuario" });
+            } else {
+                res.json({ "status": 'Ok' });
+            }
+        }
+    );
+});
+
+app.put("/modificarContrasena/:Id", 
+    (req, resp)=>{
+        const NueCon = req.body.nuevoPass;
+        const UsuId = req.params.Id;
+
+        db.query("CALL SP_CambiarContra (?, ?)",
+            [UsuId, NueCon],
+            (err, respuesta)=>{
+                if(err){
+                    resp.json({"status": 'Error'});
+                    console.log(err);
+                }else{
+                    resp.json({"status": 'Ok'});
+                }
+            }
+        )
+
+    }
+   
+)
