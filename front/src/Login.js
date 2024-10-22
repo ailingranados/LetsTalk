@@ -20,26 +20,36 @@ const Login = () => {
     const navigate = useNavigate(); // Crear una instancia de useNavigate
 
     // Función para manejar el login
-    const handleLogin = async () => {
+    const handleLogin = async () => { 
         try {
             const response = await axios.post('http://localhost:3001/login', {
                 correo,
                 contrasena
             });
-
-            const { mensaje, id_usuario } = response.data;
+    
+            const { mensaje, id_usuario, rol } = response.data;
             setMensaje(mensaje);
             setMensajeTipo(id_usuario > 0 ? 'success' : 'error');
-
+    
             if (id_usuario > 0) {
-                localStorage.setItem('sesion', id_usuario); // Guardar el ID del usuario en el localStorage
-                navigate('/perfil'); // Usar navigate para redirigir al usuario a la página de inicio
-
+                localStorage.setItem('sesion', id_usuario);
+                // Redirigir según el rol
+                if (rol === 2) {
+                    navigate('/Admin');
+                } else if (rol === 1) {
+                    navigate('/home');
+                }
             }
         } catch (error) {
-            console.error("Error al iniciar sesión", error);
-            setMensaje("Error en el servidor");
-            setMensajeTipo('error');
+          
+            if (error.response && error.response.status === 403) {
+                // El usuario no está aprobado
+                setMensaje("El usuario no está aprobado para iniciar sesión");
+                setMensajeTipo('error');
+            } else {
+                setMensaje("Error en el servidor");
+                setMensajeTipo('error');
+            }
         }
     };
 

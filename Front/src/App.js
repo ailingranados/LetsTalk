@@ -7,6 +7,7 @@ import ListaUsaurios from './ListaUsuarios';
 import PerfilUsuario from './PerfilUsuario';
 import RegistrarLibro from './RegistrarLibro';
 import EditarPerfil from './EditarPerfil';
+import Admin from './Admin';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/perfil" element={<PerfilUsuario />} />
         <Route path="/lista" element={<ListaUsaurios />} />
         <Route path="/editarperfil" element={<EditarPerfil />} />
+        <Route path="/Admin" element={<Admin />} />
        
         
         <Route path="/CrearLibro" element={<RegistrarLibro />} />
