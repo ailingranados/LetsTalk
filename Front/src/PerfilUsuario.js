@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import EditarPerfil from "./EditarPerfil";
 
+
 function PerfilUsuario() {
 
   const [Id, setId] = useState('');
@@ -70,7 +71,7 @@ function PerfilUsuario() {
             <div className="card p-4">
               <div className="card-body text-center">
                 <img
-                  src={fotoPerfil}
+                  src={perfilImg}
                   alt="Imagen del usuario"
                   className="avatar"
                 />
@@ -101,7 +102,7 @@ function PerfilUsuario() {
 
                     <Link
                       to={{
-                        pathname: "/editarperfil",
+                        pathname: "/editarUsuario",
                         state: {
                           usuario,
                           nombre,

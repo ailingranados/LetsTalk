@@ -1,27 +1,42 @@
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link, useNavigate } from 'react-router-dom'; // Importar useNavigate
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import './CSS/Navbar.css'; 
+import logo from './CSS/Logo.png'; 
 
-function NavBar (){
-
-    const usuario = localStorage.getItem('sesion'); // Obtener el ID del usuario de localStorage
-    return(
-        
-<nav className="navbar bg-body-tertiary">
-                <div className="container-fluid">
-{
-                    usuario?
-                    <>
-                    <span className="navbar-brand mb-0 h1">{usuario}</span> //Cambiar el texto por el valor de la variable sesion
-                    <Link to="/Login" className='btn btn-outline-info'>Cerrar sesión</Link> // Agregar un botón para cerrar sesión
-                    </>
-                    :
-                    <Link to="/Login" className='btn btn-outline-info'>Iniciar sesión</Link>
-               
-}
+export default function Navbar() {
+    return (
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <div className="container-fluid">
+                {/* Logo a la izquierda */}
+                <Link className="navbar-brand" to="/">
+                    <img src={logo} alt="Logo" className="logo" />
+                </Link>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav me-auto">
+                        {/* Sección de categorías */}
+                        <li className="nav-item dropdown">
+                            <Link className="nav-link dropdown-toggle text-dark" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Categorías
+                            </Link>
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><Link className="dropdown-item" to="/peliculas">Películas</Link></li>
+                                <li><Link className="dropdown-item" to="/libros">Libros</Link></li>
+                                <li><Link className="dropdown-item" to="/series">Series</Link></li>
+                            </ul>
+                        </li>
+                        {/* Mis Reseñas */}
+                        <li className="nav-item">
+                            <Link className="nav-link text-dark" to="/mis-resenas">Mis Reseñas</Link>
+                        </li>
+                    </ul>
+                    {/* Enlace para "Mi perfil" en la esquina derecha */}
+                    <Link className="nav-link text-dark" to="/mi-perfil">Mi Perfil</Link>
                 </div>
-            </nav>
-
-    )
+            </div>
+        </nav>
+    );
 }
-
-export default NavBar;

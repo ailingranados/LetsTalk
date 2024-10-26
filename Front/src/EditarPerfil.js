@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Perfil.css";
-// import perfilImg from "./Diseño/perfil.jpeg";
+import perfilImg from "./Diseño/perfil.jpeg";
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -120,7 +120,7 @@ const EditarPerfil = () => {
               <br />
               <img
                 id="imagenPerfil"
-                src={fotoPerfil}
+                src={perfilImg}
                 alt="Imagen del usuario"
                 className="avatar mx-auto"
               />
