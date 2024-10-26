@@ -14,6 +14,7 @@ export default function Signup() {
     const [confirmarContrasena, setConfirmarContrasena] = useState('');
     const [fotoPerfil, setFotoPerfil] = useState(null);
     const [fechaNacimiento, setFechaNacimiento] = useState('');
+    const [rol, setRol] = useState('colaborador'); 
     const navigate = useNavigate();
 
     function validateForm() {
@@ -86,11 +87,12 @@ export default function Signup() {
             formData.append('contrasena', contrasena);
             formData.append('fotoPerfil', fotoPerfil);
             formData.append('fechaNacimiento', fechaNacimiento);
+            formData.append('rol', rol);
 
             try {
                 const response = await axios.post("http://localhost:3001/create", formData);
-                console.log("Response data:", response.data); // Verifica la estructura de la respuesta
-                console.log({ usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil });
+                console.log("Response data:", response.data);
+                console.log({ usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil, rol }); 
 
                 const { mensaje } = response.data;
 
@@ -233,6 +235,20 @@ export default function Signup() {
                             required
                         />
                     </div>
+                    <div className="col-md-6">
+                <label htmlFor="rol" className="form-label font-weight-bold text-light">Rol que deseas ser</label>
+                <select
+                    className="form-control form-control-custom"
+                    id="rol"
+                    name="rol" // Asegúrate de que el nombre esté aquí si es necesario
+                    value={rol} // Cambiado a value en lugar de defaultValue
+                    onChange={(e) => setRol(e.target.value)} // Agregado: función para actualizar el estado del rol
+                    required
+                >
+                    <option value="administrador">Administrador</option>
+                    <option value="colaborador">Colaborador</option>
+                </select>
+            </div>
                     <div className="mb-3">
                         <div className="form-check">
                             <input

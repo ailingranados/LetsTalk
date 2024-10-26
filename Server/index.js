@@ -40,13 +40,13 @@ const db = mysql.createConnection({
 app.listen(3001, () => {
     console.log("Escuchando en el puerto 3001");
 });
-
 app.post("/create", upload.single('fotoPerfil'), (req, res) => {
-    const { usuario, nombre, apellido, correo, contrasena, fechaNacimiento } = req.body;
+    const { usuario, nombre, apellido, correo, contrasena, fechaNacimiento, rol } = req.body; // Agregado: rol
     const fotoPerfil = req.file ? req.file.path : null; // Ruta del archivo cargado
 
-    const sql = 'CALL SP_RegistrarUsuario(?, ?, ?, ?, ?, ?, ?)';
-    const values = [usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil];
+    const sql = 'CALL SP_RegistrarUsuario(?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    const values = [usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil, rol, 1]; // Aprobado es 1 por defecto
+    
 
     db.query(sql, values, (error, results) => {
         if (error) {
@@ -58,11 +58,25 @@ app.post("/create", upload.single('fotoPerfil'), (req, res) => {
     });
 });
 
+app.put("/aprobarUsuario/:id", (req, res) => {
+    const { id } = req.params;
+    const sql = 'UPDATE Usuario SET Aprobado = 0 WHERE Id = ?';
+
+    db.query(sql, [id], (error, results) => {
+        if (error) {
+            console.error("Error al aprobar usuario:", error);
+            res.status(500).send({ mensaje: "Error al aprobar usuario" });
+        } else {
+            res.send({ mensaje: "Usuario aprobado correctamente" });
+        }
+    });
+});
+
 // Ruta para manejo de login
 app.post("/login", (req, res) => {
     const { correo, contrasena } = req.body;
 
-    db.query('CALL SP_IniciarSesion (?, ?, @mensaje, @id_usuario); SELECT @mensaje AS mensaje, @id_usuario AS id_usuario;', 
+    db.query('CALL SP_IniciarSesion (?, ?, @mensaje, @id_usuario, @rol); SELECT @mensaje AS mensaje, @id_usuario AS id_usuario, @rol AS rol;', 
         [correo, contrasena], 
         (error, results) => {
             if (error) {
@@ -70,10 +84,35 @@ app.post("/login", (req, res) => {
                 res.status(500).send({ mensaje: "Error en el servidor" });
             } else {
                 const result = results[1][0];
-                res.send({
-                    mensaje: result.mensaje,
-                    id_usuario: result.id_usuario
-                });
+
+                // Verificar si el mensaje indica que el usuario no está aprobado
+                if (result.mensaje === 'El usuario no está aprobado para iniciar sesión') {
+                    
+                 
+                }
+
+                const rol = result.rol;
+
+                // Redirigir según el rol
+                if (rol === 'administrador') {
+                    res.send({
+                        mensaje: result.mensaje,
+                        id_usuario: result.id_usuario,
+                        rol: 2 
+                    });
+                } else if (rol === 'colaborador') {
+                    res.send({
+                        mensaje: result.mensaje,
+                        id_usuario: result.id_usuario,
+                        rol: 1 
+                    });
+                } else {
+                    res.send({
+                        mensaje: result.mensaje,
+                        id_usuario: result.id_usuario,
+                        rol: null 
+                    });
+                }
             }
         }
     );

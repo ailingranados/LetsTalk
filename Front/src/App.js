@@ -7,7 +7,10 @@ import ListaUsaurios from './ListaUsuarios';
 import PerfilUsuario from './PerfilUsuario';
 import RegistrarLibro from './RegistrarLibro';
 import EditarPerfil from './EditarPerfil';
+import Admin from './Admin';
 import Navbar from './NavBar';
+
+
 function Layout() {
   return (
     <>
@@ -16,6 +19,7 @@ function Layout() {
     </>
   );
 }
+
 
 function App() {
   return (
@@ -29,8 +33,9 @@ function App() {
         <Route path="/Navbar" element={<NavBar />} />
         <Route path="/perfil" element={<PerfilUsuario />} />
         <Route path="/lista" element={<ListaUsaurios />} />
-      
-        
+        <Route path="/Admin" element={<Admin />} />
+       
+
         <Route path="/CrearLibro" element={<RegistrarLibro />} />
         <Route path="/" element={<Navigate to="/login" />} />
 
