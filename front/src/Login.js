@@ -32,6 +32,8 @@ const Login = () => {
             setMensajeTipo(id_usuario > 0 ? 'success' : 'error');
     
             if (id_usuario > 0) {
+
+
                 localStorage.setItem('sesion', id_usuario);
                 // Redirigir según el rol
                 if (rol === 2) {
@@ -39,6 +41,7 @@ const Login = () => {
                 } else if (rol === 1) {
                     navigate('/home');
                 }
+
             }
         } catch (error) {
           
