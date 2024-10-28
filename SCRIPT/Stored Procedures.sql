@@ -1,87 +1,39 @@
 
 /************************************************************************************PROCEDURES******/
+/*PROCEDURES CON CAMBIOS*/
+drop procedure SP_IniciarSesion;
+drop procedure SP_RegistrarUsuario;
 
 DELIMITER //
-CREATE PROCEDURE SP_IniciarSesionAdmin(
-    IN IN_correo VARCHAR(100),
-    IN IN_contrasena VARCHAR(50), 
-    OUT OUT_mensaje VARCHAR(255), 
-    OUT OUT_id_usuario INT
-)
-BEGIN
-    DECLARE id_usuario INT;
 
-    -- Intentar obtener el ID del usuario con el correo y la contraseña proporcionados
-    SELECT U.Id
-		INTO id_usuario
-			FROM Usuario U
-				WHERE U.Correo = IN_correo AND U.Contraseña = IN_contrasena
-    LIMIT 1;
-
-    -- Si no se encuentra el usuario, verificar si el correo existe
-    IF id_usuario IS NULL THEN
-        SELECT U.Id
-        INTO id_usuario
-        FROM Usuario U
-        WHERE U.Correo = p_correo
-        LIMIT 1;
-
-        -- Si el correo no existe
-        IF id_usuario IS NULL THEN
-            SET p_mensaje = 'El correo electrónico no existe en Administrador';
-        ELSE
-            SET p_mensaje = 'Correo electrónico o contraseña incorrectos';
-        END IF;
-    ELSE
-        -- Inicio de sesión exitoso
-        SET OUT_mensaje = 'Inicio de sesión exitoso';
-        SET OUT_id_usuario = id_usuario;
-    END IF;
-END //
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE SP_IniciarSesion(
+CREATE PROCEDURE SP_IniciarSesion (
     IN p_correo VARCHAR(100),
-    IN p_contrasena VARCHAR(50), 
-    OUT p_mensaje VARCHAR(255), 
-    OUT p_id_usuario INT
+    IN p_contrasena VARCHAR(50),
+    OUT p_mensaje VARCHAR(255),
+    OUT p_id_usuario INT,
+    OUT p_rol VARCHAR(50)
 )
 BEGIN
-    DECLARE id_usuario INT;
+    DECLARE v_aprobado INT;
 
-    -- Intentar obtener el ID del usuario con el correo y la contraseña proporcionados
-    SELECT U.Id
-    INTO id_usuario
-    FROM Usuario U
-    WHERE U.Correo = p_correo AND U.Contraseña = p_contrasena
-    LIMIT 1;
+    SELECT Id, rol, Aprobado INTO p_id_usuario, p_rol, v_aprobado
+    FROM Usuario
+    WHERE Correo = p_correo AND ContraseÃ±a = p_contrasena;
 
-    -- Si no se encuentra el usuario, verificar si el correo existe
-    IF id_usuario IS NULL THEN
-        SELECT U.Id
-        INTO id_usuario
-        FROM Usuario U
-        WHERE U.Correo = p_correo
-        LIMIT 1;
-
-        -- Si el correo no existe
-        IF id_usuario IS NULL THEN
-            SET p_mensaje = 'El correo electrónico no existe en la base de datos';
-        ELSE
-            SET p_mensaje = 'Correo electrónico o contraseña incorrectos';
-        END IF;
+    IF p_id_usuario IS NULL THEN
+        SET p_mensaje = 'Credenciales incorrectas';
+    ELSEIF v_aprobado = 1 THEN
+        SET p_mensaje = 'El usuario no estÃ¡ aprobado para iniciar sesiÃ³n';
+        SET p_id_usuario = NULL; -- No se debe permitir el acceso
     ELSE
-        -- Inicio de sesión exitoso
-        SET p_mensaje = 'Inicio de sesión exitoso';
-        SET p_id_usuario = id_usuario;
+        SET p_mensaje = 'Inicio de sesiÃ³n exitoso';
     END IF;
 END //
+
 DELIMITER ;
 
-
-/************************************************************************************USUARIO******/
 DELIMITER //
+
 CREATE PROCEDURE SP_RegistrarUsuario (
     IN p_usuario VARCHAR(50),
     IN p_nombre VARCHAR(50),
@@ -89,37 +41,25 @@ CREATE PROCEDURE SP_RegistrarUsuario (
     IN p_correo VARCHAR(100),
     IN p_contrasena VARCHAR(50),
     IN p_fecha_nacimiento DATE,
-    IN p_img_perfil BLOB
+    IN p_img_perfil BLOB,
+    IN p_rol VARCHAR(50),
+    IN p_aprobado INT -- ParÃ¡metro para aprobado
 )
 BEGIN
     INSERT INTO Usuario (
-        Usuario, Nombre, Apellido, Correo, Contraseña, Fecha_nacimiento, Img_perfil, Estado, Fecha_registro
+        Usuario, Nombre, Apellido, Correo, ContraseÃ±a, Fecha_nacimiento, Img_perfil, Estado, Fecha_registro, rol, Aprobado
     ) 
     VALUES (
-        p_usuario, p_nombre, p_apellido, p_correo, p_contrasena, p_fecha_nacimiento, p_img_perfil, 1, now()
+        p_usuario, p_nombre, p_apellido, p_correo, p_contrasena, p_fecha_nacimiento, p_img_perfil, 1, NOW(), p_rol, p_aprobado
     );
 END //
+
 DELIMITER ;
 
-DELIMITER //
-CREATE PROCEDURE SP_RegistrarAdmin (
-	IN IN_id INT,
-    IN IN_usuario VARCHAR(50),
-    IN IN_nombre VARCHAR(50),
-    IN IN_apellido VARCHAR(50),
-    IN IN_correo VARCHAR(100),
-    IN IN_contrasena VARCHAR(50),
-    IN IN_fecha_nacimiento DATE
-)
-BEGIN
-    INSERT INTO Administrador (
-        Id, Usuario, Nombre, Apellido, Correo, Contraseña, Fecha_nacimiento, Estado, Fecha_registro
-    ) 
-    VALUES (
-        IN_id, IN_usuario, IN_nombre, IN_apellido, IN_correo, IN_contrasena, IN_fecha_nacimiento, 1, now()
-    );
-END //
-DELIMITER ;
+
+
+/************************************************************************************USUARIO******/
+
 /*
 DELIMITER //
 CREATE PROCEDURE SP_ModificarUsuario (

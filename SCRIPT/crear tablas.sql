@@ -27,22 +27,6 @@ CREATE TABLE Usuario (
     FOREIGN KEY (Estado) REFERENCES Estado_Usuario(Id)
 );
 
-/*DROP TABLE Administrador*/
-CREATE TABLE Administrador (
-    Id 					INT PRIMARY KEY,
-	Usuario				VARCHAR(50) NOT NULL UNIQUE,
-    Nombre 				VARCHAR(50) NOT NULL,
-    Apellido 			VARCHAR(50) NOT NULL,
-    Correo 				VARCHAR(100) NOT NULL UNIQUE,
-    Contraseña 			VARCHAR(50) NOT NULL,
-    Fecha_nacimiento	DATE NOT NULL,
-	
-    Estado				INT,
-    Fecha_registro		DATETIME,
-    
-    FOREIGN KEY (Estado) REFERENCES Estado_Usuario(Id)
-);
-
 
 /*************************************************************************************TABLAS DE LISTBOX******/
 CREATE TABLE Categoria(
@@ -165,3 +149,11 @@ Fecha				DATETIME NOT NULL,
 	FOREIGN KEY (Serie) 
 		REFERENCES Series(Id)        
 );
+
+/*************************************************************************************TABLAS CON CAMBIOS******/
+
+ALTER TABLE Usuario
+ADD COLUMN rol VARCHAR(50);
+
+ALTER TABLE Usuario
+ADD COLUMN Aprobado VARCHAR(50);
