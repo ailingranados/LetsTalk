@@ -129,6 +129,32 @@ app.get("/getUsuarios", (req, res) => {
     });
 });
 
+app.get("/getAdministradores", (req, res) => {
+    const sql = 'SELECT * FROM Usuario WHERE Aprobado = 1 AND rol = "administrador"'; // Filtrar administradores aprobados
+
+    db.query(sql, (error, results) => {
+        if (error) {
+            console.error("Error al obtener administradores:", error);
+            res.status(500).send("Error al obtener administradores");
+        } else {
+            res.json(results); // Envía los resultados como JSON
+        }
+    });
+});
+
+app.get("/Administrador/:id_usuario", (req, res) => {
+    const { id_usuario } = req.params; // Obtiene el id_usuario del parámetro
+
+    const sql = 'SELECT * FROM usuario WHERE Id = ?'; // Filtra por el ID del usuario
+    db.query(sql, [id_usuario], (error, results) => {
+        if (error) {
+            console.error("Error al obtener usuarios:", error);
+            res.status(500).send("Error al obtener usuarios");
+        } else {
+            res.json(results); // Envía los resultados como JSON
+        }
+    });
+});
 //modificar usuarios
 app.put("/modificarUsuario/:ModUsu", 
     (req, resp)=>{

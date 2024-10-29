@@ -18,18 +18,17 @@ BEGIN
 
     SELECT Id, rol, Aprobado INTO p_id_usuario, p_rol, v_aprobado
     FROM Usuario
-    WHERE Correo = p_correo AND ContraseÃ±a = p_contrasena;
+    WHERE Correo = p_correo AND Contraseña = p_contrasena;
 
     IF p_id_usuario IS NULL THEN
         SET p_mensaje = 'Credenciales incorrectas';
     ELSEIF v_aprobado = 1 THEN
-        SET p_mensaje = 'El usuario no estÃ¡ aprobado para iniciar sesiÃ³n';
+        SET p_mensaje = 'El usuario no está aprobado para iniciar sesión';
         SET p_id_usuario = NULL; -- No se debe permitir el acceso
     ELSE
-        SET p_mensaje = 'Inicio de sesiÃ³n exitoso';
+        SET p_mensaje = 'Inicio de sesión exitoso';
     END IF;
 END //
-
 DELIMITER ;
 
 DELIMITER //
@@ -47,7 +46,7 @@ CREATE PROCEDURE SP_RegistrarUsuario (
 )
 BEGIN
     INSERT INTO Usuario (
-        Usuario, Nombre, Apellido, Correo, ContraseÃ±a, Fecha_nacimiento, Img_perfil, Estado, Fecha_registro, rol, Aprobado
+        Usuario, Nombre, Apellido, Correo, Contraseña, Fecha_nacimiento, Img_perfil, Estado, Fecha_registro, rol, Aprobado
     ) 
     VALUES (
         p_usuario, p_nombre, p_apellido, p_correo, p_contrasena, p_fecha_nacimiento, p_img_perfil, 1, NOW(), p_rol, p_aprobado
@@ -157,7 +156,6 @@ BEGIN
 		VALUES (IN_nombre);
 END //
 DELIMITER ;
-
 
 
 

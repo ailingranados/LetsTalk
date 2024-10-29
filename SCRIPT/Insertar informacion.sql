@@ -24,6 +24,8 @@ CALL SP_RegistrarUsuario('ana', 'Ana', 'Ambris', 'ana@example.com', '123', '2002
 
 CALL SP_RegistrarUsuario('chuy', 'Jesus', 'Osorio', 'chuy@example.com', '123', '2001-04-26', 0);
 
+CALL SP_RegistrarUsuario('luna', 'luna', 'cantu', 'luna@example.com', '123', '2000-02-20', 0, "administrador", 0);
+
 CALL SP_BuscarIdUsuario('chuy@example.com', @ID);
 select @ID;
 
