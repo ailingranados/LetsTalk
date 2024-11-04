@@ -9,7 +9,7 @@ import RegistrarLibro from './RegistrarLibro';
 import EditarPerfil from './EditarPerfil';
 import Admin from './Admin';
 import Navbar from './NavBar';
-
+import ReseñaSerie from './ReseñaSerie';
 
 function Layout() {
   return (
@@ -44,6 +44,7 @@ function App() {
         <Route element={<Layout />}>
         <Route path="/perfilUsuario" element={<PerfilUsuario />} />
         <Route path="/editarUsuario" element={<EditarPerfil />} />
+        <Route path="/reseñaSerie" element={<ReseñaSerie />} />
         </Route>
       </Routes>
     </Router>

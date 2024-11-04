@@ -142,6 +142,19 @@ app.get("/getAdministradores", (req, res) => {
     });
 });
 
+app.get("/getColaboradores", (req, res) => {
+    const sql = 'SELECT * FROM Usuario WHERE Aprobado = 1 AND rol = "colaborador"'; // Filtrar administradores aprobados
+
+    db.query(sql, (error, results) => {
+        if (error) {
+            console.error("Error al obtener administradores:", error);
+            res.status(500).send("Error al obtener administradores");
+        } else {
+            res.json(results); // Envía los resultados como JSON
+        }
+    });
+});
+
 app.get("/Administrador/:id_usuario", (req, res) => {
     const { id_usuario } = req.params; // Obtiene el id_usuario del parámetro
 
@@ -307,3 +320,16 @@ app.put("/InactivarPerfil/:Id",
     }
    
 )
+
+app.get('/getSeries', (req, res) => {
+    const query = 'SELECT Id, Titulo FROM Series';
+    
+    db.query(query, (error, rows) => {
+        if (error) {
+            console.error("Error al obtener series:", error);
+            res.status(500).send("Error al obtener series");
+        } else {
+            res.json(rows);
+        }
+    });
+});

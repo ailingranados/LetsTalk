@@ -15,6 +15,9 @@ SELECT * FROM Administrador;
 
 SELECT * FROM libros;
 
+SELECT * FROM series;
+
+SELECT * FROM usuario_series;
 /************************************************************************************INSERTS EN BD******/
 
 INSERT INTO Usuario (USUARIO, NOMBRE, APELLIDO, CORREO, CONTRASENA, FECHA_NACIMIENTO, ESTADO, FECHA_REGISTRO)
@@ -36,6 +39,20 @@ CALL SP_BorrarUsuario(4);
 CALL SP_BuscarUsuarioPorId(2, @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro);
 select @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro;
 
+CALL SP_RegistrarAdmin(1000, 'AILIN', 'AILIN', 'CANTU', 'ailin@admin.com', '123', '2002-08-28');
+
+CALL SP_BuscarUsuarioPorId('2', @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro);
+SELECT @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro;
+
+CALL SP_RegistrarLibro('Orgullo y prejuicio', 'jane austen', 'planeta', '123456789', 2);
+
+CALL SP_ModificarUsuario(2, 'chuy2',  'jesus2', 'chuy2@gmail','osorio', 0);
+
+CALL SP_CambiarContra (3, 'ailin');
+
+CALL IniciarSesion('ana@example.com', '123', @mensaje, @id_usuario);
+SELECT @mensaje, @id_usuario;
+
 
 INSERT INTO Estado_Usuario(Estado)
 VALUES ('ACTIVO');
@@ -43,8 +60,6 @@ VALUES ('ACTIVO');
 INSERT INTO Estado_Usuario(Estado)
 VALUES ('INACTIVO');
 
-CALL IniciarSesion('ana@example.com', '123', @mensaje, @id_usuario);
-SELECT @mensaje, @id_usuario;
 
 CALL SP_CrearCategoria('Comedia');
 CALL SP_CrearCategoria('Romantico');
@@ -59,13 +74,6 @@ CALL SP_CrearPlataforma('Prime');
 CALL SP_CrearPlataforma('Paramount+');
 CALL SP_CrearPlataforma('Disney+');
 
-CALL SP_RegistrarAdmin(1000, 'AILIN', 'AILIN', 'CANTU', 'ailin@admin.com', '123', '2002-08-28');
+CALL SP_CrearSerie('Euforia', 'Zendaya', 'jacob Elordi', 0, 2, 16, 'HBO', 'Suspenso');
 
-CALL SP_BuscarUsuarioPorId('2', @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro);
-SELECT @O_usuario, @O_nombre, @O_apellido, @O_correo, @O_contrasena, @O_fecha_nacimiento, @O_img_perfil, @O_estado, @O_fecha_registro;
-
-CALL SP_RegistrarLibro('Orgullo y prejuicio', 'jane austen', 'planeta', '123456789', 2);
-
-CALL SP_ModificarUsuario(2, 'chuy2',  'jesus2', 'chuy2@gmail','osorio', 0);
-
-CALL SP_CambiarContra (3, 'ailin')
+CALL SP_CrearReseñaSerie(2, 1, 3.5, 'buena serie con un buen comienzo, no me gusto el final de temporada');

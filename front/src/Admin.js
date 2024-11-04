@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 const VERusu = () => {
     const [usuarios, setUsuarios] = useState([]);
     const [administradores, setAdministradores] = useState([]);
+    const [colaboradores, setcolaboradores] = useState([]);
     useEffect(() => {
         const fetchUsuarios = async () => {
             const id_usuario = localStorage.getItem('sesion'); // Obtiene el ID del usuario de localStorage
@@ -19,7 +20,12 @@ const VERusu = () => {
                
                 const responseAdministradores = await axios.get('http://localhost:3001/getAdministradores');
                 console.log("Lista de administradores aprobados:", responseAdministradores.data);
-                setAdministradores(responseAdministradores.data); // Guarda la lista de administradores en el estado
+                setAdministradores(responseAdministradores.data); 
+
+                const responseColaboradores = await axios.get('http://localhost:3001/getColaboradores');
+                console.log("Lista de colaboradores aprobados:", responseColaboradores.data);
+                setcolaboradores(responseColaboradores.data); // Guarda la lista de administradores en el estado
+
             } catch (error) {
                 console.error("Error al obtener datos:", error);
             }
@@ -29,6 +35,7 @@ const VERusu = () => {
 
         fetchUsuarios();
     }, []);
+
     const aprobarUsuario = async (id) => {
         console.log(id);
         try {
@@ -40,6 +47,7 @@ const VERusu = () => {
                 )
             );
             // Recarga la página después de aprobar al usuario
+            alert("Usuario aprobado");
             window.location.reload(); 
         } catch (error) {
             console.error("Error al aprobar usuario:", error);
@@ -97,7 +105,7 @@ const VERusu = () => {
                         </div>
                     ))}
     </div>
-    <h1>Usuarios a aprobar</h1>
+    <h1>Administradores a aprobar</h1>
     <table className="table">
                 <thead>
                     <tr>
@@ -119,11 +127,53 @@ const VERusu = () => {
         <td>{administrador.Correo}</td>
         <td>{administrador.Fecha_nacimiento}</td>
         <td>
-            {administrador.Aprobado === 1 ? (
+            {console.log(administrador)}
+            {administrador.Aprobado === "1" ? (
                 <button 
                     type="button" 
                     className="btn btn-danger" 
                     onClick={() => aprobarUsuario(administrador.Id)}  // Usar "Id" aquí
+                >
+                    Aprobar
+                </button>
+            ) : (
+                <span>Aprobado</span>
+            )}
+        </td>
+    </tr>
+))}
+
+</tbody>
+
+            </table>
+
+            <h1>Usuarios a aprobar</h1>
+    <table className="table">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Aprobar</th>
+                    </tr>
+                </thead>
+               
+                <tbody>
+                {colaboradores.map((colaborador, index) => (
+    <tr key={colaborador.Id ? colaborador.Id : index}>
+        <td>{colaborador.Usuario}</td>
+        <td>{colaborador.Nombre}</td>
+        <td>{colaborador.Apellido}</td>
+        <td>{colaborador.Correo}</td>
+        <td>{colaborador.Fecha_nacimiento}</td>
+        <td>
+            {colaborador.Aprobado === "1" ? (
+                <button 
+                    type="button" 
+                    className="btn btn-success" 
+                    onClick={() => aprobarUsuario(colaborador.Id)}  // Usar "Id" aquí
                 >
                     Aprobar
                 </button>

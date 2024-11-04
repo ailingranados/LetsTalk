@@ -80,7 +80,7 @@ Id 					INT AUTO_INCREMENT PRIMARY KEY,
 Titulo 				VARCHAR(50),
 Actor_1 			VARCHAR(50),
 Actor_2 			VARCHAR(50),
-Finalizada 			TINYINT(1) NOT NULL,
+Finalizada 			TINYINT(1) NOT NULL, /*0 para incompleta, 1 para terminada*/
 Temporadas			INT,
 Capitulos			INT,
 Plataforma			INT,
@@ -105,6 +105,7 @@ Usuario				INT,
 Libro				INT,
 Calificacion		INT,
 Fecha				DATETIME NOT NULL,
+Reseña				VARCHAR(300),
 
 /*LLAVES FORANEAS*/
  CONSTRAINT FK_IdUsuario_Libros
@@ -122,6 +123,7 @@ Usuario				INT,
 Pelicula			INT,
 Calificacion		INT,
 Fecha				DATETIME NOT NULL,
+Reseña				VARCHAR(300),
 
 /*LLAVES FORANEAS*/
  CONSTRAINT FK_IdUsuario_Pelicula
@@ -133,12 +135,14 @@ Fecha				DATETIME NOT NULL,
 		REFERENCES Peliculas(Id)        
 );
 
+
 CREATE TABLE Usuario_Series(
 Id 					INT AUTO_INCREMENT PRIMARY KEY,
 Usuario				INT,
 Serie				INT,
-Calificacion		INT,
+Calificacion		FLOAT, /*valor del 0 al 5*/
 Fecha				DATETIME NOT NULL,
+Reseña				VARCHAR(300),
 
 /*LLAVES FORANEAS*/
  CONSTRAINT FK_IdUsuario_Serie
@@ -157,3 +161,5 @@ ADD COLUMN rol VARCHAR(50);
 
 ALTER TABLE Usuario
 ADD COLUMN Aprobado VARCHAR(50);
+
+

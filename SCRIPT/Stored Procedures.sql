@@ -158,7 +158,7 @@ END //
 DELIMITER ;
 
 
-
+/***********No funciona***
 DROP PROCEDURE SP_RegistrarLibro
 DELIMITER //
 CREATE PROCEDURE SP_RegistrarLibro (
@@ -181,6 +181,8 @@ BEGIN
     );
 END //
 DELIMITER ;
+
+******No funciona******/
 
 Drop procedure SP_ModificarUsuario
 DELIMITER //
@@ -219,3 +221,51 @@ BEGIN
 END //
 DELIMITER ;
 
+/***********CREAR SERIE******/
+DELIMITER //
+CREATE PROCEDURE SP_CrearSerie(
+
+	In_Titulo 			VARCHAR(50),
+	In_Actor_1 			VARCHAR(50),
+	In_Actor_2 			VARCHAR(50),
+	In_Finalizada 		TINYINT(1),
+	In_Temporadas			INT,
+	In_Capitulos			INT,
+	In_Plataforma			VARCHAR(50),
+	In_Categoria			VARCHAR(50)
+)
+BEGIN
+  DECLARE Id_plataforma INT;
+  DECLARE Id_categoria INT;
+
+SELECT P.Id
+    INTO Id_plataforma
+		FROM Plataforma P
+			WHERE P.Nombre = In_Plataforma;
+            
+ SELECT C.Id
+    INTO Id_categoria
+		FROM Categoria C
+			WHERE C.Nombre = In_Categoria;
+            
+                   
+    INSERT INTO Series (Titulo, Actor_1, Actor_2, Finalizada, Temporadas, Capitulos, plataforma, categoria)
+		VALUES (In_Titulo, In_Actor_1, In_Actor_2, In_Finalizada, In_Temporadas, In_Capitulos, Id_plataforma, Id_categoria);
+END //
+DELIMITER ;
+
+/***********CREAR RESEÑA SERIE******/
+DROP PROCEDURE SP_CrearReseñaSerie
+DELIMITER //
+CREATE PROCEDURE SP_CrearReseñaSerie(
+	In_Usuario 				INT,
+	In_Serie 				INT,
+	In_Calificacion			FLOAT,
+	In_Reseña				VARCHAR(300)
+)
+BEGIN
+
+    INSERT INTO Usuario_Series (Usuario, Serie, Calificacion, Fecha, Reseña)
+		VALUES (In_Usuario, In_Serie, In_Calificacion, now(), In_Reseña);
+END //
+DELIMITER ;

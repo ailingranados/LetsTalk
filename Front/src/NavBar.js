@@ -27,6 +27,18 @@ export default function Navbar() {
                                 <li><Link className="dropdown-item" to="/libros">Libros</Link></li>
                                 <li><Link className="dropdown-item" to="/series">Series</Link></li>
                             </ul>
+                           
+                        </li>
+                        <li className="nav-item dropdown">
+                            <Link className="nav-link dropdown-toggle text-dark" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Reseñas
+                            </Link>
+                           
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><Link className="dropdown-item" to="/peliculas">Crear reseña Películas</Link></li>
+                                <li><Link className="dropdown-item" to="/libros">Crear reseña Libros</Link></li>
+                                <li><Link className="dropdown-item" to="/reseñaSerie">Crear reseña Series</Link></li>
+                            </ul>
                         </li>
                         {/* Mis Reseñas */}
                         <li className="nav-item">
