@@ -259,13 +259,21 @@ DROP PROCEDURE SP_CrearReseñaSerie
 DELIMITER //
 CREATE PROCEDURE SP_CrearReseñaSerie(
 	In_Usuario 				INT,
-	In_Serie 				INT,
+	In_Serie 				VARCHAR(50),
 	In_Calificacion			FLOAT,
 	In_Reseña				VARCHAR(300)
 )
 BEGIN
 
+	DECLARE Id_serie INT;
+    
+    SELECT S.Id
+    INTO Id_serie
+		FROM Series S
+			WHERE S.Titulo = In_Serie;
+       
+
     INSERT INTO Usuario_Series (Usuario, Serie, Calificacion, Fecha, Reseña)
-		VALUES (In_Usuario, In_Serie, In_Calificacion, now(), In_Reseña);
+		VALUES (In_Usuario, Id_serie, In_Calificacion, now(), In_Reseña);
 END //
 DELIMITER ;

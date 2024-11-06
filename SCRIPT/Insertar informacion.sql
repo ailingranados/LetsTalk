@@ -76,4 +76,4 @@ CALL SP_CrearPlataforma('Disney+');
 
 CALL SP_CrearSerie('Euforia', 'Zendaya', 'jacob Elordi', 0, 2, 16, 'HBO', 'Suspenso');
 
-CALL SP_CrearReseñaSerie(2, 1, 3.5, 'buena serie con un buen comienzo, no me gusto el final de temporada');
+CALL SP_CrearReseñaSerie(2, 'Euforia', 3.5, 'buena serie con un buen comienzo, no me gusto el final de temporada');

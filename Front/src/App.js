@@ -31,7 +31,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/Navbar" element={<NavBar />} />
-        <Route path="/perfil" element={<PerfilUsuario />} />
+        {/* <Route path="/perfil" element={<PerfilUsuario />} /> */}
         <Route path="/lista" element={<ListaUsaurios />} />
         <Route path="/Admin" element={<Admin />} />
        

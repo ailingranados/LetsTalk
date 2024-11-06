@@ -333,3 +333,20 @@ app.get('/getSeries', (req, res) => {
         }
     });
 });
+
+app.post("/resenaSerie", (req, res) => {
+    const { id_sesion, titulo, calificacion, reseña } = req.body;
+
+    const query = 'CALL SP_CrearReseñaSerie(?, ?, ?, ?)';
+    const values = [id_sesion, titulo, calificacion, reseña];
+
+    console.log(req.body);
+    db.query(query, values, (error, results) => {
+        if (error) {
+            console.error("Error al insertar reseña desde la base de datos:", error);
+            res.status(500).send("Error al insertar reseña desde la base de datos");
+        } else {
+            res.send({ mensaje: "Reseña agregada con éxito" });
+        }
+    });
+});

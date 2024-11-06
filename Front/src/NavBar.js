@@ -46,7 +46,7 @@ export default function Navbar() {
                         </li>
                     </ul>
                     {/* Enlace para "Mi perfil" en la esquina derecha */}
-                    <Link className="nav-link text-dark" to="/mi-perfil">Mi Perfil</Link>
+                    <Link className="nav-link text-dark" to="/perfilUsuario">Mi Perfil</Link>
                 </div>
             </div>
         </nav>
