@@ -18,6 +18,12 @@ SELECT * FROM libros;
 SELECT * FROM series;
 
 SELECT * FROM usuario_series;
+
+/************************************************************************************Modificacion en tablas******/
+
+delete from Plataforma where Id = 10;
+
+ALTER TABLE Plataforma AUTO_INCREMENT = 5;
 /************************************************************************************INSERTS EN BD******/
 
 INSERT INTO Usuario (USUARIO, NOMBRE, APELLIDO, CORREO, CONTRASENA, FECHA_NACIMIENTO, ESTADO, FECHA_REGISTRO)
@@ -77,3 +83,8 @@ CALL SP_CrearPlataforma('Disney+');
 CALL SP_CrearSerie('Euforia', 'Zendaya', 'jacob Elordi', 0, 2, 16, 'HBO', 'Suspenso');
 
 CALL SP_CrearReseñaSerie(2, 'Euforia', 3.5, 'buena serie con un buen comienzo, no me gusto el final de temporada');
+
+CALL SP_BuscarSeriesPorId(1, @titulo, @actor1, @actor2, @finalizada, @temporadas, @capitulo, @plataforma, @categoria);
+select @titulo, @actor1, @actor2, @finalizada, @temporadas, @capitulo, @plataforma, @categoria;
+
+
