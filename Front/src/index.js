@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './CSS/index.css';
 import App from './App'; // Renderiza el App que contiene el Router
 import reportWebVitals from './reportWebVitals';
 

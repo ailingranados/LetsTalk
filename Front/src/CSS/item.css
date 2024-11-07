@@ -1,0 +1,35 @@
+.item{
+    border: 1px solid #ffffff;
+    padding: 16px;
+    margin: 16px;
+  
+    width: 400px;
+    border-radius: 4px;
+}
+
+.item p{
+    margin: 6px 0px;
+    color: white;
+    font-size:40px;
+    font-weight: 500;
+}
+
+.item-prices{
+    display: flex;
+    gap: 20px;
+}
+
+
+
+.item:hover{
+    transform: scale(1.05);
+    transition: 0.6s;
+}
+
+.item-image {
+    width: 100%;
+    height: auto;
+    max-height: 300px; /* Ajusta la altura máxima según tus necesidades */
+    object-fit: cover; /* Asegura que la imagen se ajuste al contenedor */
+    border-radius: 10px; /* Opcional: Añade bordes redondeados */
+}

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom'; // Importar useNavigate
-import './Login.css'; 
+import './CSS/Login.css'; 
 
 const Login = () => {
     const [correo, setCorreo] = useState('');

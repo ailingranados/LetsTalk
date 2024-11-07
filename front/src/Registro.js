@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import axios from 'axios';
-import './Signup.css';
+import './CSS/Signup.css';
 import { useNavigate } from 'react-router-dom';
 
 

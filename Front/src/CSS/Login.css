@@ -37,22 +37,22 @@ body {
 
 /* Estilos para las imágenes de fondo del carrusel */
 .img-1 {
-    background-image: url('../DiseñoImg/1.png');
+    background-image: url('./DiseñoImg/1.png');
     background-size: cover;
     background-position: center;
 }
 .img-2 {
-    background-image: url('../DiseñoImg/2.png');
+    background-image: url('./DiseñoImg/2.png');
     background-size: cover;
     background-position: center;
 }
 .img-3 {
-    background-image: url('../DiseñoImg/3.png');
+    background-image: url('./DiseñoImg/3.png');
     background-size: cover;
     background-position: center;
 }
 .img-4 {
-    background-image: url('../DiseñoImg/4.png');
+    background-image: url('./DiseñoImg/4.png');
     background-size: cover;
     background-position: center;
 }

@@ -350,3 +350,75 @@ app.post("/resenaSerie", (req, res) => {
         }
     });
 });
+
+app.get('/getDatosSeries', (req, res) => {
+    const query = 'SELECT * FROM VistaSeriesCompleta';
+    
+    db.query(query, (error, rows) => {
+        if (error) {
+            console.error("Error al obtener series:", error);
+            res.status(500).send("Error al obtener series");
+        } else {
+            res.json(rows);
+        }
+    });
+});
+
+//imagenes
+const filtro = (req, file, cb)=>{
+    const formatos = 
+    ['image/png', 'image/jpg', 'image/jpeg'];
+
+    if(formatos.includes(file.mimetype)){
+        cb(null, true);
+    }else{
+        cb(null, false);
+        return cb(new Error('Archivo no aceptado'));
+    }
+}
+
+const strg = multer.memoryStorage();
+const archivo = multer({
+    storage: strg,
+    fileFilter: filtro
+});
+
+app.post("/imagen", archivo.single('imagenForm'),
+    (req, resp)=>{
+        const userName = req.body.usuario;
+        const imag64 = req.file.buffer.toString('base64');
+
+        db.query("insert into imagen(imag64,usuario) values (?,?)",
+            [imag64, userName],
+            (error, result)=>{
+                if(error){
+                    console.log(error);
+                }else{
+                    resp.json({
+                        "status" : "OK"
+                    })
+                }
+            }
+        )
+    }
+)
+
+app.get("/getAllImag",
+    (req, resp) =>{
+        db.query("select * from imagen",
+            (error, result)=>{
+                if(error){
+                    resp.json({
+                        "status": "Error"
+                    })
+                    console.log(error);
+                }else{
+                    if(result.length>0){
+                        resp.json(result);
+                        console.log(result);
+                    }
+                }
+            }
+        )
+    }
+)

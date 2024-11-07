@@ -254,7 +254,7 @@ END //
 DELIMITER ;
 
 /***********CREAR RESEÑA SERIE******/
-DROP PROCEDURE SP_CrearReseñaSerie
+/*DROP PROCEDURE SP_CrearReseñaSerie*/
 DELIMITER //
 CREATE PROCEDURE SP_CrearReseñaSerie(
 	In_Usuario 				INT,
@@ -278,7 +278,7 @@ END //
 DELIMITER ;
 
 /***********BUSCAR SERIE******/
-DROP PROCEDURE SP_BuscarSeriesPorId
+/*DROP PROCEDURE SP_BuscarSeriesPorId*/
 DELIMITER //
 CREATE PROCEDURE SP_BuscarSeriesPorId (
     IN IN_Id 			INT,
@@ -302,6 +302,50 @@ DECLARE finalizada tinyint(1);
 		FROM Series
 			WHERE series.Id = IN_Id
 		LIMIT 1;
+
+	SELECT plataforma.Nombre
+		INTO O_Plataforma
+			FROM plataforma
+				WHERE plataforma.Id = Id_plataforma;
+                
+	SELECT categoria.Nombre
+		INTO O_Categoria
+			FROM categoria
+				WHERE categoria.Id = Id_categoria;
+                
+	if finalizada = 0 THEN
+		SET O_Finalizada = 'Incompleta';
+    END IF;
+    
+    if finalizada = 1 THEN
+		SET O_Finalizada = 'Completa';
+    END IF;
+END //
+DELIMITER ;
+
+/***********BUSCAR TODAS LAS SERIE******/
+/*DROP PROCEDURE SP_BuscarTodasLasSeries*/
+DELIMITER //
+CREATE PROCEDURE SP_BuscarTodasLasSeries (
+	OUT O_Titulo 		VARCHAR(50),
+	OUT O_Actor_1 		VARCHAR(50),
+	OUT O_Actor_2 		VARCHAR(50),
+	OUT O_Finalizada 	VARCHAR(50), /*0 para incompleta, 1 para terminada*/
+	OUT O_Temporadas	INT,
+	OUT O_Capitulos		INT,
+	OUT O_Plataforma	VARCHAR(50),
+	OUT O_Categoria		VARCHAR(50)
+)
+BEGIN
+
+DECLARE Id_plataforma INT;
+DECLARE Id_categoria INT;
+DECLARE finalizada tinyint(1);
+
+  SELECT series.Titulo, series.Actor_1, series.Actor_2, series.Finalizada, series.Temporadas, series.Capitulos, series.Plataforma, series.categoria
+    INTO O_Titulo, O_Actor_1, O_Actor_2, finalizada, O_Temporadas, O_Capitulos, Id_plataforma, Id_categoria
+		FROM Series;
+			
 
 	SELECT plataforma.Nombre
 		INTO O_Plataforma

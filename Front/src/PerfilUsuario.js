@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./Perfil.css";
+import "./CSS/Perfil.css";
 import perfilImg from "./Diseño/perfil.jpeg";
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';

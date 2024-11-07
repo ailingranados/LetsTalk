@@ -23,6 +23,8 @@ SELECT * FROM usuario_series;
 
 delete from Plataforma where Id = 10;
 
+delete from series where Id = 2;
+
 ALTER TABLE Plataforma AUTO_INCREMENT = 5;
 /************************************************************************************INSERTS EN BD******/
 
@@ -73,6 +75,7 @@ CALL SP_CrearCategoria('Horror');
 CALL SP_CrearCategoria('Suspenso');
 CALL SP_CrearCategoria('Fantasia');
 CALL SP_CrearCategoria('Historico');
+CALL SP_CrearCategoria('Ciencia Ficcion');
 
 CALL SP_CrearPlataforma('HBO');
 CALL SP_CrearPlataforma('Netflix');
@@ -82,9 +85,13 @@ CALL SP_CrearPlataforma('Disney+');
 
 CALL SP_CrearSerie('Euforia', 'Zendaya', 'jacob Elordi', 0, 2, 16, 'HBO', 'Suspenso');
 
+CALL SP_CrearSerie('Arcane', 'Vee', 'Jinx', 0, 1, 8, 'Netflix', 'Ciencia Ficcion');
+
 CALL SP_CrearReseñaSerie(2, 'Euforia', 3.5, 'buena serie con un buen comienzo, no me gusto el final de temporada');
 
 CALL SP_BuscarSeriesPorId(1, @titulo, @actor1, @actor2, @finalizada, @temporadas, @capitulo, @plataforma, @categoria);
 select @titulo, @actor1, @actor2, @finalizada, @temporadas, @capitulo, @plataforma, @categoria;
 
+CALL SP_BuscarTodasLasSeries(@titulo, @actor1, @actor2, @finalizada, @temporadas, @capitulo, @plataforma, @categoria);
+select @titulo, @actor1, @actor2, @finalizada, @temporadas, @capitulo, @plataforma, @categoria;
 

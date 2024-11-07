@@ -1,5 +1,5 @@
 import React from 'react';
-import './CSS/Estrellas.css';
+import '../CSS/Estrellas.css';
 
 const Estrellas = ({ score }) => {
     const totalStars = 5;

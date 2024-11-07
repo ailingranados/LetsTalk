@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import './CSS/Navbar.css'; 
-import logo from './CSS/Logo.png'; 
+import './Navbar.css'; 
+import logo from './Logo.png'; 
+
 
 export default function Navbar() {
     return (
@@ -25,7 +26,7 @@ export default function Navbar() {
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><Link className="dropdown-item" to="/peliculas">Películas</Link></li>
                                 <li><Link className="dropdown-item" to="/libros">Libros</Link></li>
-                                <li><Link className="dropdown-item" to="/series">Series</Link></li>
+                                <li><Link className="dropdown-item" to="/paginaSeries">Series</Link></li>
                             </ul>
                            
                         </li>

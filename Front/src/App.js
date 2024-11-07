@@ -2,20 +2,24 @@ import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-
 import Login from './Login';
 import Register from './Registro';
 import Home from './Home';
-import NavBar from './NavBar';
+import NavBar from './Navegacion/NavBar'; // Corrige la ruta aquí
 import ListaUsaurios from './ListaUsuarios';
 import PerfilUsuario from './PerfilUsuario';
 import RegistrarLibro from './RegistrarLibro';
 import EditarPerfil from './EditarPerfil';
 import Admin from './Admin';
-import Navbar from './NavBar';
-import ReseñaSerie from './ReseñaSerie';
+
+import ReseñaSerie from './Series/ReseñaSerie';
+import Navbar from './Navegacion/NavBar';
+import PaguinaSeries from './Series/PagSeries';
+import Imagen from './items/Imagen';
 
 function Layout() {
   return (
     <>
       <Navbar />
       <Outlet />
+    
     </>
   );
 }
@@ -45,6 +49,8 @@ function App() {
         <Route path="/perfilUsuario" element={<PerfilUsuario />} />
         <Route path="/editarUsuario" element={<EditarPerfil />} />
         <Route path="/reseñaSerie" element={<ReseñaSerie />} />
+        <Route path="/paginaSeries" element={<PaguinaSeries />} />
+        <Route path="/imagen" element={< Imagen/>} />
         </Route>
       </Routes>
     </Router>

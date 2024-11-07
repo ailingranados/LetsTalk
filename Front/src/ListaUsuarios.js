@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import NavBar from './NavBar';
+import NavBar from './Navegacion/NavBar'; // Corrige la ruta aquí
 import ModificarUsuario from './ModificarUsuario';
 
 
