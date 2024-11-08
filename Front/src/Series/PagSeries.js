@@ -3,10 +3,13 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Item from '../items/item';
 import '../CSS/PagSeries.css';
-import prueba from "../Diseño/perfil.jpeg";
+import prueba from "../Diseño/Arcane.jpg";
+import { useNavigate } from 'react-router-dom';
+
 
 const PaguinaSeries = () => {
     const [series, setSeries] = useState([]);
+    const navigate = useNavigate(); // Define navigate
 
 
     useEffect(() => {
@@ -22,6 +25,10 @@ const PaguinaSeries = () => {
         fetchSeries();
     }, []);
 
+    const handleItemClick = (serie) => {
+        navigate(`/detalleSerie/${serie.id}`, { state: { serie } });
+    };
+
     return (
         <div className='popular'>
             <br />
@@ -29,8 +36,9 @@ const PaguinaSeries = () => {
             <hr />
             <div className='popular-item'>
                 {series.map((serie, index) => (
+                     <div key={index} onClick={() => handleItemClick(serie)}>
                     <Item
-                        key={index}
+                        
                         image={prueba}
                         name={serie.Titulo}
                         actor_1={serie.Actor_1}
@@ -42,6 +50,7 @@ const PaguinaSeries = () => {
                         categoria={serie.Categoria}
 
                     />
+                     </div>
                 ))}
             </div>
         </div>

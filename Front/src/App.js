@@ -13,6 +13,7 @@ import ReseñaSerie from './Series/ReseñaSerie';
 import Navbar from './Navegacion/NavBar';
 import PaguinaSeries from './Series/PagSeries';
 import Imagen from './items/Imagen';
+import SerieDetalles from './Series/SerieDetalles';
 
 function Layout() {
   return (
@@ -50,6 +51,7 @@ function App() {
         <Route path="/editarUsuario" element={<EditarPerfil />} />
         <Route path="/reseñaSerie" element={<ReseñaSerie />} />
         <Route path="/paginaSeries" element={<PaguinaSeries />} />
+        <Route path="/detalleSerie/:id" element={<SerieDetalles />} />
         <Route path="/imagen" element={< Imagen/>} />
         </Route>
       </Routes>

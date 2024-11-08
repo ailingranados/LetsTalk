@@ -1,0 +1,103 @@
+.item{
+    background: white;
+    padding: 20px;
+    margin: 20px;
+    width: 400px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.item p{
+    margin: 6px 0px;
+    color: rgb(0, 0, 0);
+    font-size:20px;
+    font-weight: 600;
+   
+}
+
+.item-prices{
+    display: flex;
+    gap: 20px;
+}
+
+
+.item-image {
+    width: 100%;
+    height: auto;
+    max-height: 600px; /* Ajusta la altura máxima según tus necesidades */
+    object-fit: cover; /* Asegura que la imagen se ajuste al contenedor */
+    border-radius: 10px; /* Opcional: Añade bordes redondeados */
+}
+
+.panel{
+    display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 10px;
+   height: 20vh;
+}
+
+.panel h1{
+    color: rgb(255, 255, 255);
+    font-size:50px;
+    font-weight: 600;
+}
+
+.panel hr{
+    width: 200px;
+    height: 6px;
+    border-radius: 10px;
+    background: white;
+}
+
+.panel-item{
+    position: fixed; /* Fija el panel a la pantalla */
+    top: 0; /* Ajusta la posición superior según sea necesario */
+    left: 0; /* Fija el panel al lado izquierdo */
+    width: 500px; /* Ajusta el ancho según sea necesario */
+    height: 100%; /* Hace que el panel ocupe toda la altura de la pantalla */
+    padding: 20px;
+    margin-top: 50px; /* Puedes ajustar o eliminar esto según sea necesario */
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos hijos se apilen verticalmente */
+    gap: 30px;
+    background-color: transparent; /* Añade un color de fondo si es necesario */
+   
+    overflow-y: auto; 
+}
+
+.reseña{
+    background: white;
+    padding: 20px;
+    margin: 20px;
+    width: 600px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra para darle un efecto de profundidad */
+}
+
+.contenedor-reseña {
+    display: flex; /* Usa Flexbox */
+    flex-direction: row; /* Apila los elementos en filas */
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente línea si es necesario */
+    gap: 20px; /* Añade espacio entre los elementos */
+}
+
+.contenedor-row{
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    gap: 10px;
+    height: 40vh;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+
+.reseña p{
+    margin: 6px 0px;
+    color: rgb(0, 0, 0);
+    font-size:20px;
+    font-weight: 600;
+   
+}
