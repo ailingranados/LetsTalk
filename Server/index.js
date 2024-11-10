@@ -364,6 +364,18 @@ app.get('/getDatosSeries', (req, res) => {
     });
 });
 
+app.get('/getResenaSerie', (req, res) => {
+    const query = 'SELECT * FROM VistaReseñaSerie';
+    
+    db.query(query, (error, rows) => {
+        if (error) {
+            console.error("Error al obtener reseñas de series:", error);
+            res.status(500).send("Error al obtener reseñas de series");
+        } else {
+            res.json(rows);
+        }
+    });
+});
 //imagenes
 const filtro = (req, file, cb)=>{
     const formatos = 

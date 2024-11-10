@@ -18,6 +18,7 @@
 .item-prices{
     display: flex;
     gap: 20px;
+    color: #000000;
 }
 
 
@@ -54,10 +55,11 @@
     position: fixed; /* Fija el panel a la pantalla */
     top: 0; /* Ajusta la posición superior según sea necesario */
     left: 0; /* Fija el panel al lado izquierdo */
-    width: 500px; /* Ajusta el ancho según sea necesario */
+    width: 30%; /* Ajusta el ancho según sea necesario */
     height: 100%; /* Hace que el panel ocupe toda la altura de la pantalla */
     padding: 20px;
     margin-top: 50px; /* Puedes ajustar o eliminar esto según sea necesario */
+    margin-bottom: 50px;
     display: flex;
     flex-direction: column; /* Asegura que los elementos hijos se apilen verticalmente */
     gap: 30px;
@@ -70,17 +72,18 @@
     background: white;
     padding: 20px;
     margin: 20px;
-    width: 600px;
+    width: 700px;
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra para darle un efecto de profundidad */
 }
 
 .contenedor-reseña {
-    display: flex; /* Usa Flexbox */
-    flex-direction: row; /* Apila los elementos en filas */
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente línea si es necesario */
-    gap: 20px; /* Añade espacio entre los elementos */
+    display: flex; 
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    gap: 20px;
+
 }
 
 .contenedor-row{
@@ -89,7 +92,7 @@
     width: 100%;
     gap: 10px;
     height: 40vh;
-    padding-left: 20%;
+    padding-left: 40%;
     padding-right: 20%;
 }
 
