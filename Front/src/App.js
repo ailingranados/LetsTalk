@@ -12,9 +12,11 @@ import Admin from './Admin';
 import ReseñaSerie from './Series/ReseñaSerie';
 import Navbar from './Navegacion/NavBar';
 import PaguinaSeries from './Series/PagSeries';
+import ReseñaLibros from './Libros/ReseñaLibros';
+import PaginaLibros from './Libros/PagLibros';
 import Imagen from './items/Imagen';
 import SerieDetalles from './Series/SerieDetalles';
-
+import LibrosDetalles from './Libros/LibrosDetalles';
 function Layout() {
   return (
     <>
@@ -51,7 +53,12 @@ function App() {
         <Route path="/editarUsuario" element={<EditarPerfil />} />
         <Route path="/reseñaSerie" element={<ReseñaSerie />} />
         <Route path="/paginaSeries" element={<PaguinaSeries />} />
+
         <Route path="/detalleSerie/:id" element={<SerieDetalles />} />
+
+        <Route path="/ReseñaLibros" element={<ReseñaLibros />} />
+        <Route path="/PaginaLibros" element={<PaginaLibros />} />
+        <Route path="/detalleLibros/:id" element={<LibrosDetalles />} />
         <Route path="/imagen" element={< Imagen/>} />
         </Route>
       </Routes>

@@ -107,6 +107,7 @@ Calificacion		INT,
 Fecha				DATETIME NOT NULL,
 Reseña				VARCHAR(300),
 
+
 /*LLAVES FORANEAS*/
  CONSTRAINT FK_IdUsuario_Libros
 	FOREIGN KEY (Usuario) 

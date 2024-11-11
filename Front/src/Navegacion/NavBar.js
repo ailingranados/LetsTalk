@@ -25,7 +25,7 @@ export default function Navbar() {
                             </Link>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><Link className="dropdown-item" to="/peliculas">Películas</Link></li>
-                                <li><Link className="dropdown-item" to="/libros">Libros</Link></li>
+                                <li><Link className="dropdown-item" to="/PaginaLibros">Libros</Link></li>
                                 <li><Link className="dropdown-item" to="/paginaSeries">Series</Link></li>
                             </ul>
                            
@@ -37,7 +37,7 @@ export default function Navbar() {
                            
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><Link className="dropdown-item" to="/peliculas">Crear reseña Películas</Link></li>
-                                <li><Link className="dropdown-item" to="/libros">Crear reseña Libros</Link></li>
+                                <li><Link className="dropdown-item" to="/ReseñaLibros">Crear reseña Libros</Link></li>
                                 <li><Link className="dropdown-item" to="/reseñaSerie">Crear reseña Series</Link></li>
                             </ul>
                         </li>

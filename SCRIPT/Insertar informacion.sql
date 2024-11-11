@@ -95,3 +95,10 @@ select @titulo, @actor1, @actor2, @finalizada, @temporadas, @capitulo, @platafor
 CALL SP_BuscarTodasLasSeries(@titulo, @actor1, @actor2, @finalizada, @temporadas, @capitulo, @plataforma, @categoria);
 select @titulo, @actor1, @actor2, @finalizada, @temporadas, @capitulo, @plataforma, @categoria;
 
+CALL SP_CrearLibro(
+    'El Principito',       
+    'Antoine de Saint-Exupéry', 
+    'Reynal & Hitchcock',   
+    '9781234567890',        
+    'Suspenso'             
+);

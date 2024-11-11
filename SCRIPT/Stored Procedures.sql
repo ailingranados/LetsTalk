@@ -156,32 +156,55 @@ BEGIN
 END //
 DELIMITER ;
 
-
-/***********No funciona***
-DROP PROCEDURE SP_RegistrarLibro
+--libros, ya funciona
 DELIMITER //
-CREATE PROCEDURE SP_RegistrarLibro (
-    IN IN_titulo VARCHAR(50),
-    IN IN_author VARCHAR(50),
-    IN IN_editorial VARCHAR(100),
-    IN IN_isbn VARCHAR(15),
-    IN categoria INT
+CREATE PROCEDURE SP_CrearReseñaLibro(
+	In_Usuario 				INT,
+	In_Libro 				VARCHAR(50),
+	In_Calificacion			FLOAT,
+	In_Reseña				VARCHAR(300)
 )
 BEGIN
-    INSERT INTO Libros (
-		Titulo,
-		Author,
-		Editorial,
-		ISBN,
-		Categoria	
-    ) 
-    VALUES (
-        IN_titulo, IN_author, IN_editorial, IN_isbn, categoria
-    );
+
+	DECLARE Id_Libro INT;
+    
+    SELECT S.Id
+    INTO Id_Libro
+		FROM Libros S
+			WHERE S.Titulo = In_Libro;
+       
+
+    INSERT INTO Usuario_Libros (Usuario, Libro, Calificacion, Fecha, Reseña)
+		VALUES (In_Usuario, Id_Libro, In_Calificacion, now(), In_Reseña);
+END //
+DELIMITER ;
+--crear libro
+DELIMITER //
+CREATE PROCEDURE SP_CrearLibro(
+    In_Titulo VARCHAR(50),
+    In_Author VARCHAR(50),
+    In_Editorial VARCHAR(50),
+    In_ISBN VARCHAR(15),
+    In_Categoria VARCHAR(50)
+)
+BEGIN
+    DECLARE Id_categoria INT;
+
+    -- Obtener el ID de la categoría con el nombre especificado
+    SELECT C.Id
+    INTO Id_categoria
+    FROM Categoria C
+    WHERE C.Nombre = In_Categoria
+    LIMIT 1;  -- Agregar LIMIT 1 para evitar múltiples resultados
+
+    -- Insertar el libro en la tabla Libros
+    INSERT INTO Libros (Titulo, Author, Editorial, ISBN, Categoria)
+    VALUES (In_Titulo, In_Author, In_Editorial, In_ISBN, Id_categoria);
 END //
 DELIMITER ;
 
-******No funciona******/
+
+
 
 Drop procedure SP_ModificarUsuario
 DELIMITER //

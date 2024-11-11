@@ -320,7 +320,61 @@ app.put("/InactivarPerfil/:Id",
     }
    
 )
+//libros
+app.get('/getLibros', (req, res) => {
+    const query = 'SELECT Id, Titulo FROM Libros';
+    
+    db.query(query, (error, rows) => {
+        if (error) {
+            console.error("Error al obtener libros:", error);
+            res.status(500).send("Error al obtener libros");
+        } else {
+            res.json(rows);
+        }
+    });
+});
+app.post("/resenaLibro", (req, res) => {
+    const { id_sesion, titulo, calificacion, reseña } = req.body;
 
+    const query = 'CALL SP_CrearReseñaLibro(?, ?, ?, ?)';
+    const values = [id_sesion, titulo, calificacion, reseña];
+
+    console.log(req.body);
+    db.query(query, values, (error, results) => {
+        if (error) {
+            console.error("Error al insertar reseña del libro desde la base de datos:", error);
+            res.status(500).send("Error al insertar reseña del libro desde la base de datos");
+        } else {
+            res.send({ mensaje: "Reseña agregada con éxito" });
+        }
+    });
+});
+app.get('/getDatosLibros', (req, res) => {
+    const query = 'SELECT * FROM VistaLibrosCompleta';
+    
+    db.query(query, (error, rows) => {
+        if (error) {
+            console.error("Error al obtener series:", error);
+            res.status(500).send("Error al obtener series");
+        } else {
+            res.json(rows);
+        }
+    });
+});
+
+app.get('/getResenaLibros', (req, res) => {
+    const query = 'SELECT * FROM VistaReseñaLibro';
+    
+    db.query(query, (error, rows) => {
+        if (error) {
+            console.error("Error al obtener reseñas de libros:", error);
+            res.status(500).send("Error al obtener reseñas de series");
+        } else {
+            res.json(rows);
+        }
+    });
+});
+//series
 app.get('/getSeries', (req, res) => {
     const query = 'SELECT Id, Titulo FROM Series';
     
