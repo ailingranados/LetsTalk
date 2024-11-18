@@ -1,4 +1,5 @@
-Sus procedure: 
+CALL SP_ObtenerReseñasPelicula;
+
 
 DELIMITER $$
 CREATE DEFINER=root@localhost PROCEDURE SP_CrearPelicula (

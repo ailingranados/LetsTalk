@@ -178,6 +178,7 @@ BEGIN
 		VALUES (In_Usuario, Id_Libro, In_Calificacion, now(), In_Reseña);
 END //
 DELIMITER ;
+
 --crear libro
 DELIMITER //
 CREATE PROCEDURE SP_CrearLibro(
