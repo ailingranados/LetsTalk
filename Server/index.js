@@ -430,26 +430,115 @@ app.get('/getResenaSerie', (req, res) => {
         }
     });
 });
-//imagenes
-const filtro = (req, file, cb)=>{
-    const formatos = 
-    ['image/png', 'image/jpg', 'image/jpeg'];
 
-    if(formatos.includes(file.mimetype)){
-        cb(null, true);
-    }else{
-        cb(null, false);
-        return cb(new Error('Archivo no aceptado'));
-    }
-}
 
-const strg = multer.memoryStorage();
-const archivo = multer({
-    storage: strg,
-    fileFilter: filtro
+
+// Obtener categorías
+app.get('/getCategorias', (req, res) => {
+    const query = 'SELECT Id, Nombre FROM Categoria';
+    
+    db.query(query, (error, rows) => {
+        if (error) {
+            console.error("Error al obtener categorías:", error);
+            res.status(500).send("Error al obtener categorías");
+        } else {
+            res.json(rows); // Enviar la lista de categorías
+        }
+    });
 });
 
-app.post("/imagen", archivo.single('imagenForm'),
+// Obtener plataformas
+app.get('/getPlataformas', (req, res) => {
+    const query = 'SELECT Id, Nombre FROM Plataforma';
+    
+    db.query(query, (error, rows) => {
+        if (error) {
+            console.error("Error al obtener plataformas:", error);
+            res.status(500).send("Error al obtener plataformas");
+        } else {
+            res.json(rows); // Enviar la lista de plataformas
+        }
+    });
+});
+
+
+
+//pelicula
+app.post("/postPelicula", (req, res) => {
+    const { titulo, director, actor_1, actor_2, anio, categoria } = req.body;
+
+    const sql = 'CALL SP_CrearPelicula(?, ?, ?, ?, ?, ?)';
+    const values = [titulo, director, actor_1, actor_2, anio, categoria];
+
+    db.query(sql, values, (error, results) => {
+        if (error) {
+            console.error("Error al insertar película:", error);
+            res.status(500).send("Error al insertar película");
+        } else {
+            res.send("Película creada con éxito");
+        }
+    });
+});
+
+app.get('/getPeliculas', (req, res) => {
+    const query = 'CALL SP_ObtenerPeliculas()';
+    
+    db.query(query, (error, rows) => {
+        if (error) {
+            console.error("Error al obtener películas:", error);
+            res.status(500).send("Error al obtener películas");
+        } else {
+            res.json(rows[0]); // Se devuelve el resultado de la llamada al procedimiento
+        }
+    });
+});
+
+app.post("/resenaPelicula", (req, res) => {
+    const { id_sesion, titulo, calificacion, reseña } = req.body;
+
+    const sql = 'CALL SP_CrearReseñaPelicula(?, ?, ?, ?)';
+    const values = [id_sesion, titulo, calificacion, reseña];
+
+    db.query(sql, values, (error, results) => {
+        if (error) {
+            console.error("Error al insertar reseña de película:", error);
+            res.status(500).send("Error al insertar reseña de película");
+        } else {
+            res.send({ mensaje: "Reseña agregada con éxito" });
+        }
+    });
+});
+
+app.get('/getResenaPeliculas', (req, res) => {
+    const query = 'CALL SP_ObtenerReseñasPelicula()';
+    
+    db.query(query, (error, rows) => {
+        if (error) {
+            console.error("Error al obtener reseñas de películas:", error);
+            res.status(500).send("Error al obtener reseñas de películas");
+        } else {
+            res.json(rows[0]); // Se devuelve el resultado de la llamada al procedimiento
+        }
+    });
+});
+
+
+//Registro administrador
+const filtro = (req, file, cb) => {
+    const formatos = ['image/png', 'image/jpg', 'image/jpeg'];
+  
+    if (formatos.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error('Archivo no aceptacdo')); // Maintain error handling
+    }
+  };
+  
+  const str = multer.memoryStorage();
+  const archivo = multer({ storage: str, fileFilter: filtro }); // Apply filter
+  
+  app.post("/imagen", archivo.single('imagenForm'),
     (req, resp)=>{
         const userName = req.body.usuario;
         const imag64 = req.file.buffer.toString('base64');
@@ -488,3 +577,67 @@ app.get("/getAllImag",
         )
     }
 )
+
+
+  app.post("/postpelicula", archivo.single('Foto'), (req, resp) => {
+    // Check for missing title
+    if (!req.body.Titulo) {
+      return resp.status(400).json({ error: "Título es requerido" });
+    }
+  
+    const tituloP = req.body.Titulo;
+    const directorP = req.body.Director;
+    const Actor1P = req.body.Actor1;
+    const Actor2P = req.body.Actor2;
+    const imag64 = req.file ? req.file.buffer.toString("Base64") : null; // Handle empty file
+    const CategP = req.body.Categ;
+    const DuraP = req.body.Duracion;
+  
+    db.query(
+      "INSERT into pelicula(Titulo, Director, Actor_1, Actor_2, Duracion, ImagenP, categoria ) VALUES(?,?,?,?,?,?,?)",
+      [tituloP, directorP, Actor1P, Actor2P, imag64, CategP, DuraP],
+      (error, result) => {
+        if (error) {
+          console.log(error);
+          resp.status(500).json({ error: "Error al insertar película" }); // Handle database errors
+        } else {
+          resp.json({
+            status: "OK",
+          });
+        }
+      }
+    );
+  });
+  
+  app.post("/postserie", archivo.single('FotoSe'), (req, resp) => {
+    // Check for missing title
+    if (!req.body.Titulo) {
+      return resp.status(400).json({ error: "Título es requerido" });
+    }
+  
+    const tituloS = req.body.TituloSE;
+    const FinalS = req.body.Finalizacion;
+    const Actor1S = req.body.Actor1S;
+    const Actor2S = req.body.Actor2S;
+    const Temp = req.body.Temporada;
+    const Caps = req.body.Capirulos;
+    const Plataf = req.body.Plataforma;
+    const imag64 = req.file ? req.file.buffer.toString("Base64") : null; // Handle empty file
+    const CategS = req.body.Categ;
+    
+  
+    db.query(
+      "INSERT into Series(Titulo, Actor_1, Actor_2, Finalizada, Temporadas, Capitulos, Plataforma, ImagenS,  categoria ) VALUES(?,?,?,?,?,?,?,?,?)",
+      [tituloS, Actor1S, Actor2S, FinalS, Temp, Caps, Plataf, imag64, CategS],
+      (error, result) => {
+        if (error) {
+          console.log(error);
+          resp.status(500).json({ error: "Error al insertar Serie" }); // Handle database errors
+        } else {
+          resp.json({
+            status: "OK",
+          });
+        }
+      }
+    );
+  });

@@ -66,13 +66,13 @@ const VERusu = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/add-movie">Agregar Película</Link>
+                            <Link className="nav-link" to="/RegisPelis">Agregar Película</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/add-book">Agregar Libro</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/add-series">Agregar Serie</Link>
+                            <Link className="nav-link" to="/RegisSerie">Agregar Serie</Link>
                         </li>
                        
                     </ul>
