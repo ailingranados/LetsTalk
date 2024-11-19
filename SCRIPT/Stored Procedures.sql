@@ -1,8 +1,6 @@
 
 /************************************************************************************PROCEDURES******/
 /*PROCEDURES CON CAMBIOS*/
-drop procedure SP_IniciarSesion;
-drop procedure SP_RegistrarUsuario;
 
 DELIMITER //
 
@@ -11,12 +9,13 @@ CREATE PROCEDURE SP_IniciarSesion (
     IN p_contrasena VARCHAR(50),
     OUT p_mensaje VARCHAR(255),
     OUT p_id_usuario INT,
-    OUT p_rol VARCHAR(50)
+    OUT p_rol VARCHAR(50),
+    OUT out_estado INT
 )
 BEGIN
     DECLARE v_aprobado INT;
 
-    SELECT Id, rol, Aprobado INTO p_id_usuario, p_rol, v_aprobado
+    SELECT Id, rol, Aprobado, Estado INTO p_id_usuario, p_rol, v_aprobado, out_estado
     FROM Usuario
     WHERE Correo = p_correo AND Contraseña = p_contrasena;
 
@@ -57,26 +56,6 @@ DELIMITER ;
 
 
 /************************************************************************************USUARIO******/
-
-/*
-DELIMITER //
-CREATE PROCEDURE SP_ModificarUsuario (
-    IN IN_Id INT,
-    IN IN_usuario VARCHAR(50),
-    IN IN_contrasena VARCHAR(50),
-    IN IN_img_perfil BLOB
-)
-BEGIN
-
-	UPDATE Usuario
-		SET 
-		Usuario = IN_usuario, 
-		Contraseña = IN_contrasena,
-		Img_perfil = IN_img_perfil
-			WHERE Id = IN_Id;
-END //
-DELIMITER ;
-*/
 
 DELIMITER //
 CREATE PROCEDURE SP_BorrarUsuario (
@@ -388,5 +367,26 @@ DECLARE finalizada tinyint(1);
     if finalizada = 1 THEN
 		SET O_Finalizada = 'Completa';
     END IF;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE PROCEDURE SP_BuscarReseñasSeries(
+	In_Serie 				VARCHAR(50)
+	
+)
+BEGIN
+
+	DECLARE Id_Buscar INT;
+    
+    SELECT S.Id
+    INTO Id_Buscar
+		FROM Series S
+			WHERE S.Titulo = In_Serie;
+       
+SELECT * FROM VistaReseñaSerie where IdSerie = Id_Buscar;
+    
 END //
 DELIMITER ;

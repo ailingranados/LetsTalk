@@ -138,7 +138,7 @@ export default function Signup() {
                             <label htmlFor="usuario" className="form-label font-weight-bold text-light">Nombre de Usuario</label>
                             <input
                                 type="text"
-                                className="form-control bg-dark-x border-0 mb-2"
+                                className="form-control bg-dark-x border-0 mb-2 text-cont"
                                 id="usuario"
                                 placeholder="Usuario"
                                 value={usuario}
@@ -150,7 +150,7 @@ export default function Signup() {
                             <label htmlFor="nombre" className="form-label font-weight-bold text-light">Nombre</label>
                             <input
                                 type="text"
-                                className="form-control bg-dark-x border-0 mb-2"
+                                className="form-control bg-dark-x border-0 mb-2 text-cont"
                                 id="nombre"
                                 placeholder="Nombre"
                                 value={nombre}
@@ -164,7 +164,7 @@ export default function Signup() {
                             <label htmlFor="apellido" className="form-label font-weight-bold text-light">Apellido</label>
                             <input
                                 type="text"
-                               className="form-control bg-dark-x border-0 mb-2"
+                               className="form-control bg-dark-x border-0 mb-2 text-cont"
                                 id="apellido"
                                 placeholder="Apellido"
                                 value={apellido}
@@ -176,7 +176,7 @@ export default function Signup() {
                             <label htmlFor="correo" className="form-label font-weight-bold text-light">Correo Electrónico</label>
                             <input
                                 type="email"
-                                className="form-control bg-dark-x border-0 mb-2"
+                                className="form-control bg-dark-x border-0 mb-2 text-cont"
                                 id="correo"
                                 placeholder="Correo Electrónico"
                                 value={correo}
@@ -190,7 +190,7 @@ export default function Signup() {
                             <label htmlFor="contrasena" className="form-label font-weight-bold text-light">Contraseña</label>
                             <input
                                 type="password"
-                            className="form-control bg-dark-x border-0 mb-2"
+                            className="form-control bg-dark-x border-0 mb-2 text-cont"
                                 id="contrasena"
                                 placeholder="Contraseña"
                                 value={contrasena}
@@ -202,7 +202,7 @@ export default function Signup() {
                             <label htmlFor="confirmarContrasena" className="form-label font-weight-bold text-light">Verificar Contraseña</label>
                             <input
                                 type="password"
-                               className="form-control bg-dark-x border-0 mb-2"
+                               className="form-control bg-dark-x border-0 mb-2 text-cont"
                                 id="confirmarContrasena"
                                 placeholder="Verificar Contraseña"
                                 value={confirmarContrasena}
@@ -216,7 +216,7 @@ export default function Signup() {
                             <label htmlFor="fotoPerfil" className="form-label font-weight-bold text-light">Foto de Perfil</label>
                             <input
                                 type="file"
-                                className="form-control bg-dark-x border-0 mb-2"
+                                className="form-control bg-dark-x border-0 mb-2 text-cont"
                                 id="fotoPerfil"
                                 onChange={(e) => setFotoPerfil(e.target.files[0])}
                                 accept="image/*"
@@ -228,7 +228,7 @@ export default function Signup() {
                         <label htmlFor="fechaNacimiento" className="form-label font-weight-bold text-light">Fecha de Nacimiento</label>
                         <input
                             type="date"
-                            className="form-control bg-dark-x border-0 mb-2"
+                            className="form-control bg-dark-x border-0 mb-2 text-cont"
                             id="fechaNacimiento"
                             value={fechaNacimiento}
                             onChange={(e) => setFechaNacimiento(e.target.value)}
@@ -238,7 +238,7 @@ export default function Signup() {
                     <div className="col-md-6">
                 <label htmlFor="rol" className="form-label font-weight-bold text-light">Rol que deseas ser</label>
                 <select
-                    className="form-control bg-dark-x border-0 mb-2"
+                    className="form-control bg-dark-x border-0 mb-2 text-cont"
                     id="rol"
                     name="rol" // Asegúrate de que el nombre esté aquí si es necesario
                     value={rol} // Cambiado a value en lugar de defaultValue

@@ -6,6 +6,10 @@
     color: #fff !important;
 }
 
+
+.text-cont {
+    color: #000000 !important;
+}
 .min-vh-100 {
     min-height: 100vh;
 }

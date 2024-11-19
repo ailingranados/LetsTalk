@@ -1,5 +1,6 @@
 CALL SP_ObtenerReseñasPelicula;
 
+CALL SP_ObtenerReseñasPelicula();
 
 DELIMITER $$
 CREATE DEFINER=root@localhost PROCEDURE SP_CrearPelicula (
@@ -7,6 +8,7 @@ CREATE DEFINER=root@localhost PROCEDURE SP_CrearPelicula (
     IN In_Director VARCHAR(50),
     IN In_Actor_1 VARCHAR(50),
     IN In_Actor_2 VARCHAR(50),
+    IN IN_Duracion INT,
     IN In_Categoria VARCHAR(50),
     IN In_Plataforma VARCHAR(50)
 )
@@ -76,10 +78,11 @@ BEGIN
 END$$
 DELIMITER ;
 
+DROP PROCEDURE SP_ObtenerReseñasPelicula;
 DELIMITER $$
 CREATE DEFINER=root@localhost PROCEDURE SP_ObtenerReseñasPelicula ()
 BEGIN
     SELECT * 
-    FROM VistaReseñaPelicula;
+    FROM v_resenas_peliculas;
 END$$
 DELIMITER ;

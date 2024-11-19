@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import '../CSS/PeliculaDetalles.css';
-import Item from '../items/item';
+
 import prueba from "../Diseño/Arcane.jpg";
 import React, { useEffect, useState } from 'react';
 import Estrellas from '../Diseño/Estrellas';
@@ -15,7 +15,7 @@ const PeliculaDetalles = () => {
     useEffect(() => {
         const fetchReseña = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/getResenaPelicula');
+                const response = await axios.get('http://localhost:3001/getResenaPeliculas');
                 setReseña(response.data);
             } catch (error) {
                 console.error("Error al obtener datos:", error);
@@ -51,7 +51,7 @@ const PeliculaDetalles = () => {
                                 <div className='item'>
                                     <div className="item-prices">
                                         Usuario:
-                                        <div>{reseña.Usuario}</div>
+                                        <div>{reseña.usuario}</div>
                                     </div>
                                     <div className="item-prices">
                                         Calificación:

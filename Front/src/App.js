@@ -5,7 +5,7 @@ import Home from './Home';
 import NavBar from './Navegacion/NavBar'; // Corrige la ruta aquí
 import ListaUsaurios from './ListaUsuarios';
 import PerfilUsuario from './PerfilUsuario';
-import RegistrarLibro from './RegistrarLibro';
+
 import EditarPerfil from './EditarPerfil';
 import Admin from './Admin';
 
@@ -20,10 +20,11 @@ import LibrosDetalles from './Libros/LibrosDetalles';
 
 import PeliculaDetalles from './Peliculas/PeliculaDetalles';
 import PaginaPeliculas from './Peliculas/PagPeliculas';
-import ReseñaPeliculas from './Peliculas/ReseñaPeliculas';
+import ReseñaPelicula from './Peliculas/ReseñaPeliculas';
 
 import RegistarPelis from './Registros/RegisPelis';
 import RegistarSeries from './Registros/RegistarSerie';
+import RegistrarLibro from './Registros/RegistarLibro';
 
 function Layout() {
   return (
@@ -54,8 +55,9 @@ function App() {
         <Route path="/CrearLibro" element={<RegistrarLibro />} />
         <Route path="/" element={<Navigate to="/login" />} />
 
-        <Route path='/RegisPelis' element={<RegistarPelis/>}></Route>
-        <Route path='/RegisSeries' element={<RegistarSeries/>}></Route>
+        <Route path='/registrarPeliculas' element={<RegistarPelis/>}></Route>
+        <Route path='/registrarSeries' element={<RegistarSeries/>}></Route>
+        <Route path='/registrarLibro' element={<RegistrarLibro/>}></Route>
 
 
         {/* Rutas con Navbar */}
@@ -71,9 +73,9 @@ function App() {
         <Route path="/PaginaLibros" element={<PaginaLibros />} />
         <Route path="/detalleLibros/:id" element={<LibrosDetalles />} />
 
-        <Route path="/paginaPelicula" element={PaginaPeliculas} />
-        <Route path="/resenaPelicula" element={ReseñaPeliculas} />
-        <Route path="/detallePelicula/:id" element={PeliculaDetalles} />
+        <Route path="/paginaPelicula" element={<PaginaPeliculas />} />
+        <Route path="/resenaPelicula" element={<ReseñaPelicula />} />
+        <Route path="/detallePelicula/:id" element={<PeliculaDetalles />} />
         
       
         <Route path="/imagen" element={< Imagen/>} />

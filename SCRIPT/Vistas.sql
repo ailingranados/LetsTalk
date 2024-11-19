@@ -1,10 +1,10 @@
 SELECT * FROM VistaSeriesCompleta;
 
-SELECT * FROM VistaReseñaSerie;
+SELECT * FROM VistaReseñaSerie where IdSerie = 5;
 
 SELECT * FROM VistaReseñaLibro;
 
-SELECT * FROM VistaLibrosCompleta;
+SELECT * FROM VistaPeliculasCompleta;
 
 SELECT * FROM v_resenas_peliculas;
 
@@ -119,6 +119,22 @@ GROUP BY
     p.id, p.Titulo
 ORDER BY
     calificacion_promedio DESC;
+
+
+CREATE VIEW VistaPeliculasCompleta AS
+SELECT 
+	s.Titulo, 
+    s.Director,
+	s.Actor_1,
+    s.Actor_2,
+	s.Duracion,
+    p.Nombre As Plataforma,
+    c.Nombre As Categoria
+    
+FROM peliculas s
+JOIN Plataforma p ON s.Plataforma = p.Id
+JOIN Categoria C ON s.Categoria = c.Id;
+
 
 
 

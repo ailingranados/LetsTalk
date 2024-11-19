@@ -19,6 +19,10 @@ body {
 .bg-dark-x { background-color: var(--dark-x); }
 .text-light { color: var(--light) !important; }
 
+.text-cont {
+    color: #000000 !important;
+}
+
 /* Estilos para los botones */
 .btn {
     min-height: 3.125rem;

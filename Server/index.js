@@ -31,7 +31,7 @@ const upload = multer({ storage: storage });
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "", 
+    password: "",
     database: "letstalk",
     port: 3306,
     multipleStatements: true // Permite ejecutar múltiples consultas
@@ -46,7 +46,7 @@ app.post("/create", upload.single('fotoPerfil'), (req, res) => {
 
     const sql = 'CALL SP_RegistrarUsuario(?, ?, ?, ?, ?, ?, ?, ?, ?)';
     const values = [usuario, nombre, apellido, correo, contrasena, fechaNacimiento, fotoPerfil, rol, 1]; // Aprobado es 1 por defecto
-    
+
 
     db.query(sql, values, (error, results) => {
         if (error) {
@@ -76,8 +76,8 @@ app.put("/aprobarUsuario/:id", (req, res) => {
 app.post("/login", (req, res) => {
     const { correo, contrasena } = req.body;
 
-    db.query('CALL SP_IniciarSesion (?, ?, @mensaje, @id_usuario, @rol); SELECT @mensaje AS mensaje, @id_usuario AS id_usuario, @rol AS rol;', 
-        [correo, contrasena], 
+    db.query('CALL SP_IniciarSesion (?, ?, @mensaje, @id_usuario, @rol, @estado); SELECT @mensaje AS mensaje, @id_usuario AS id_usuario, @rol AS rol, @estado AS estado;',
+        [correo, contrasena],
         (error, results) => {
             if (error) {
                 console.error(error);
@@ -87,8 +87,8 @@ app.post("/login", (req, res) => {
 
                 // Verificar si el mensaje indica que el usuario no está aprobado
                 if (result.mensaje === 'El usuario no está aprobado para iniciar sesión') {
-                    
-                 
+
+
                 }
 
                 const rol = result.rol;
@@ -98,19 +98,22 @@ app.post("/login", (req, res) => {
                     res.send({
                         mensaje: result.mensaje,
                         id_usuario: result.id_usuario,
-                        rol: 2 
+                        estado: result.estado,
+                        rol: 2
                     });
                 } else if (rol === 'colaborador') {
                     res.send({
                         mensaje: result.mensaje,
                         id_usuario: result.id_usuario,
-                        rol: 1 
+                        estado: result.estado,
+                        rol: 1
                     });
                 } else {
                     res.send({
                         mensaje: result.mensaje,
                         id_usuario: result.id_usuario,
-                        rol: null 
+                        estado: null,
+                        rol: null
                     });
                 }
             }
@@ -169,45 +172,28 @@ app.get("/Administrador/:id_usuario", (req, res) => {
     });
 });
 //modificar usuarios
-app.put("/modificarUsuario/:ModUsu", 
-    (req, resp)=>{
+app.put("/modificarUsuario/:ModUsu",
+    (req, resp) => {
         const NueNom = req.body.nuevoNombre;
         const NueCorr = req.body.nuevoCorreo;
         const UsuModif = req.params.ModUsu;
 
         db.query("update Usuario set nombre=?, correo=? where nombre=?",
             [NueNom, NueCorr, UsuModif],
-            (err, respuesta)=>{
-                if(err){
-                    resp.json({"status": 'Error'});
+            (err, respuesta) => {
+                if (err) {
+                    resp.json({ "status": 'Error' });
                     console.log(err);
-                }else{
-                    resp.json({"status": 'Ok'});
+                } else {
+                    resp.json({ "status": 'Ok' });
                 }
             }
         )
 
     }
-   
+
 )
 
-app.post("/postlibro", upload.single('fotoPerfil'), (req, res) => {
-    const { titulo, author, editorial, isbn, categoria } = req.body;
-
-    console.log(req.body.titulo);
-
-    const sql = 'CALL SP_RegistrarLibro(?, ?, ?, ?, ?)';
-    const values = [titulo, author, editorial, isbn, categoria];
-
-    db.query(sql, values, (error, results) => {
-        if (error) {
-            console.error("Error al insertar datos:", error);
-            res.status(500).send("Error al insertar datos");
-        } else {
-            res.send("Libro creado con éxito");
-        }
-    });
-});
 
 
 app.get("/getUsuarioPorId/:id", (req, res) => {
@@ -222,8 +208,8 @@ app.get("/getUsuarioPorId/:id", (req, res) => {
             if (err) {
                 console.error("Error al obtener el usuario por id:", err); // Imprimir el error para depuración
                 res.status(500).json({ error: "FATAL ERROR al obtener el usuario por id" });
-            } 
-            
+            }
+
             console.log("Datos devueltos:", data);
 
             if (data[1] && data[1][0]) {
@@ -240,17 +226,17 @@ app.get("/getUsuarioPorId/:id", (req, res) => {
                     O_fecha_registro: result['@O_fecha_registro']
                 };
                 return res.json(cleanedData);
-             }
+            }
             else {
                 console.log("Datos devueltos:", data); // Verificar la estructura de la respuesta
                 res.json(data[1][0]); // Asumimos que la información relevante está en data[1][0]
-            
+
             }
-            
+
         }
     );
 
-    
+
 });
 
 app.post("/ModUsuarioPorId/:id", upload.single('fotoPerfil'), (req, res) => {
@@ -268,7 +254,7 @@ app.post("/ModUsuarioPorId/:id", upload.single('fotoPerfil'), (req, res) => {
     // Llamar al procedimiento almacenado
     db.query(
         'CALL SP_ModificarUsuario(?, ?, ?, ?, ?, ?);',
-        [id_usuario, NueNom, NueUsu, NueCor,NueApe, NueFoto],
+        [id_usuario, NueNom, NueUsu, NueCor, NueApe, NueFoto],
         (err, data) => {
             if (err) {
                 console.error("Error al modificar usuario:", err); // Imprimir el error para depuración
@@ -280,50 +266,50 @@ app.post("/ModUsuarioPorId/:id", upload.single('fotoPerfil'), (req, res) => {
     );
 });
 
-app.put("/modificarContrasena/:Id", 
-    (req, resp)=>{
+app.put("/modificarContrasena/:Id",
+    (req, resp) => {
         const NueCon = req.body.nuevoPass;
         const UsuId = req.params.Id;
 
         db.query("CALL SP_CambiarContra (?, ?)",
             [UsuId, NueCon],
-            (err, respuesta)=>{
-                if(err){
-                    resp.json({"status": 'Error'});
+            (err, respuesta) => {
+                if (err) {
+                    resp.json({ "status": 'Error' });
                     console.log(err);
-                }else{
-                    resp.json({"status": 'Ok'});
+                } else {
+                    resp.json({ "status": 'Ok' });
                 }
             }
         )
 
     }
-   
+
 )
 
-app.put("/InactivarPerfil/:Id", 
-    (req, resp)=>{ 
+app.put("/InactivarPerfil/:Id",
+    (req, resp) => {
         const UsuId = req.params.Id;
 
         db.query("CALL SP_BorrarUsuario (?)",
             [UsuId],
-            (err, respuesta)=>{
-                if(err){
-                    resp.json({"status": 'Error'});
+            (err, respuesta) => {
+                if (err) {
+                    resp.json({ "status": 'Error' });
                     console.log(err);
-                }else{
-                    resp.json({"status": 'Ok'});
+                } else {
+                    resp.json({ "status": 'Ok' });
                 }
             }
         )
 
     }
-   
+
 )
 //libros
 app.get('/getLibros', (req, res) => {
     const query = 'SELECT Id, Titulo FROM Libros';
-    
+
     db.query(query, (error, rows) => {
         if (error) {
             console.error("Error al obtener libros:", error);
@@ -351,7 +337,7 @@ app.post("/resenaLibro", (req, res) => {
 });
 app.get('/getDatosLibros', (req, res) => {
     const query = 'SELECT * FROM VistaLibrosCompleta';
-    
+
     db.query(query, (error, rows) => {
         if (error) {
             console.error("Error al obtener series:", error);
@@ -364,7 +350,7 @@ app.get('/getDatosLibros', (req, res) => {
 
 app.get('/getResenaLibros', (req, res) => {
     const query = 'SELECT * FROM VistaReseñaLibro';
-    
+
     db.query(query, (error, rows) => {
         if (error) {
             console.error("Error al obtener reseñas de libros:", error);
@@ -377,7 +363,7 @@ app.get('/getResenaLibros', (req, res) => {
 //series
 app.get('/getSeries', (req, res) => {
     const query = 'SELECT Id, Titulo FROM Series';
-    
+
     db.query(query, (error, rows) => {
         if (error) {
             console.error("Error al obtener series:", error);
@@ -407,7 +393,7 @@ app.post("/resenaSerie", (req, res) => {
 
 app.get('/getDatosSeries', (req, res) => {
     const query = 'SELECT * FROM VistaSeriesCompleta';
-    
+
     db.query(query, (error, rows) => {
         if (error) {
             console.error("Error al obtener series:", error);
@@ -419,9 +405,10 @@ app.get('/getDatosSeries', (req, res) => {
 });
 
 app.get('/getResenaSerie', (req, res) => {
-    const query = 'SELECT * FROM VistaReseñaSerie';
-    
-    db.query(query, (error, rows) => {
+    const query = 'CALL SP_BuscarReseñasSeries(?)';
+    const values = [req.body.titulo];
+
+    db.query(query, values, (error, rows) => {
         if (error) {
             console.error("Error al obtener reseñas de series:", error);
             res.status(500).send("Error al obtener reseñas de series");
@@ -436,7 +423,7 @@ app.get('/getResenaSerie', (req, res) => {
 // Obtener categorías
 app.get('/getCategorias', (req, res) => {
     const query = 'SELECT Id, Nombre FROM Categoria';
-    
+
     db.query(query, (error, rows) => {
         if (error) {
             console.error("Error al obtener categorías:", error);
@@ -450,7 +437,7 @@ app.get('/getCategorias', (req, res) => {
 // Obtener plataformas
 app.get('/getPlataformas', (req, res) => {
     const query = 'SELECT Id, Nombre FROM Plataforma';
-    
+
     db.query(query, (error, rows) => {
         if (error) {
             console.error("Error al obtener plataformas:", error);
@@ -464,25 +451,25 @@ app.get('/getPlataformas', (req, res) => {
 
 
 //pelicula
-app.post("/postPelicula", (req, res) => {
-    const { titulo, director, actor_1, actor_2, anio, categoria } = req.body;
+// app.post("/postPelicula", (req, res) => {
+//     const { titulo, director, actor_1, actor_2, anio, categoria } = req.body;
 
-    const sql = 'CALL SP_CrearPelicula(?, ?, ?, ?, ?, ?)';
-    const values = [titulo, director, actor_1, actor_2, anio, categoria];
+//     const sql = 'CALL SP_CrearPelicula(?, ?, ?, ?, ?, ?)';
+//     const values = [titulo, director, actor_1, actor_2, anio, categoria];
 
-    db.query(sql, values, (error, results) => {
-        if (error) {
-            console.error("Error al insertar película:", error);
-            res.status(500).send("Error al insertar película");
-        } else {
-            res.send("Película creada con éxito");
-        }
-    });
-});
+//     db.query(sql, values, (error, results) => {
+//         if (error) {
+//             console.error("Error al insertar película:", error);
+//             res.status(500).send("Error al insertar película");
+//         } else {
+//             res.send("Película creada con éxito");
+//         }
+//     });
+// });
 
 app.get('/getPeliculas', (req, res) => {
     const query = 'CALL SP_ObtenerPeliculas()';
-    
+
     db.query(query, (error, rows) => {
         if (error) {
             console.error("Error al obtener películas:", error);
@@ -511,46 +498,58 @@ app.post("/resenaPelicula", (req, res) => {
 
 app.get('/getResenaPeliculas', (req, res) => {
     const query = 'CALL SP_ObtenerReseñasPelicula()';
-    
+
     db.query(query, (error, rows) => {
         if (error) {
             console.error("Error al obtener reseñas de películas:", error);
             res.status(500).send("Error al obtener reseñas de películas");
         } else {
             res.json(rows[0]); // Se devuelve el resultado de la llamada al procedimiento
-        }
-    });
+        }
+    });
 });
 
+app.get('/getDatosPeliculas', (req, res) => {
+    const query = 'SELECT * FROM VistaPeliculasCompleta';
+
+    db.query(query, (error, rows) => {
+        if (error) {
+            console.error("Error al obtener series:", error);
+            res.status(500).send("Error al obtener series");
+        } else {
+            res.json(rows);
+        }
+    });
+});
 
 //Registro administrador
 const filtro = (req, file, cb) => {
     const formatos = ['image/png', 'image/jpg', 'image/jpeg'];
-  
+
     if (formatos.includes(file.mimetype)) {
-      cb(null, true);
+        cb(null, true);
     } else {
-      cb(null, false);
-      return cb(new Error('Archivo no aceptacdo')); // Maintain error handling
+        cb(null, false);
+        return cb(new Error('Archivo no aceptacdo')); // Maintain error handling
     }
-  };
-  
-  const str = multer.memoryStorage();
-  const archivo = multer({ storage: str, fileFilter: filtro }); // Apply filter
-  
-  app.post("/imagen", archivo.single('imagenForm'),
-    (req, resp)=>{
+};
+
+const str = multer.memoryStorage();
+const archivo = multer({ storage: str, fileFilter: filtro }); // Apply filter
+
+app.post("/imagen", archivo.single('imagenForm'),
+    (req, resp) => {
         const userName = req.body.usuario;
         const imag64 = req.file.buffer.toString('base64');
 
         db.query("insert into imagen(imag64,usuario) values (?,?)",
             [imag64, userName],
-            (error, result)=>{
-                if(error){
+            (error, result) => {
+                if (error) {
                     console.log(error);
-                }else{
+                } else {
                     resp.json({
-                        "status" : "OK"
+                        "status": "OK"
                     })
                 }
             }
@@ -559,16 +558,16 @@ const filtro = (req, file, cb) => {
 )
 
 app.get("/getAllImag",
-    (req, resp) =>{
+    (req, resp) => {
         db.query("select * from imagen",
-            (error, result)=>{
-                if(error){
+            (error, result) => {
+                if (error) {
                     resp.json({
                         "status": "Error"
                     })
                     console.log(error);
-                }else{
-                    if(result.length>0){
+                } else {
+                    if (result.length > 0) {
                         resp.json(result);
                         console.log(result);
                     }
@@ -578,66 +577,58 @@ app.get("/getAllImag",
     }
 )
 
+//Funciones de administrador
 
-  app.post("/postpelicula", archivo.single('Foto'), (req, resp) => {
-    // Check for missing title
-    if (!req.body.Titulo) {
-      return resp.status(400).json({ error: "Título es requerido" });
-    }
-  
-    const tituloP = req.body.Titulo;
-    const directorP = req.body.Director;
-    const Actor1P = req.body.Actor1;
-    const Actor2P = req.body.Actor2;
-    const imag64 = req.file ? req.file.buffer.toString("Base64") : null; // Handle empty file
-    const CategP = req.body.Categ;
-    const DuraP = req.body.Duracion;
-  
-    db.query(
-      "INSERT into pelicula(Titulo, Director, Actor_1, Actor_2, Duracion, ImagenP, categoria ) VALUES(?,?,?,?,?,?,?)",
-      [tituloP, directorP, Actor1P, Actor2P, imag64, CategP, DuraP],
-      (error, result) => {
+app.post("/postpelicula", (req, res) => {
+
+    const { Titulo, Director, Actor1, Actor2, Duracion, Categoria, Plataforma } = req.body;
+
+    const query = 'CALL SP_CrearPelicula(?, ?, ?, ?, ?, ?, ?)';
+    const values = [Titulo, Director, Actor1, Actor2, Duracion, Categoria, Plataforma];
+
+    console.log(req.body);
+    db.query(query, values, (error, results) => {
         if (error) {
-          console.log(error);
-          resp.status(500).json({ error: "Error al insertar película" }); // Handle database errors
+            console.error("Error al insertar serie desde la base de datos:", error);
+            res.status(500).send("Error al insertar serie desde la base de datos");
         } else {
-          resp.json({
-            status: "OK",
-          });
+            res.send({ mensaje: "serie agregada con éxito" });
         }
-      }
-    );
-  });
-  
-  app.post("/postserie", archivo.single('FotoSe'), (req, resp) => {
-    // Check for missing title
-    if (!req.body.Titulo) {
-      return resp.status(400).json({ error: "Título es requerido" });
-    }
-  
-    const tituloS = req.body.TituloSE;
-    const FinalS = req.body.Finalizacion;
-    const Actor1S = req.body.Actor1S;
-    const Actor2S = req.body.Actor2S;
-    const Temp = req.body.Temporada;
-    const Caps = req.body.Capirulos;
-    const Plataf = req.body.Plataforma;
-    const imag64 = req.file ? req.file.buffer.toString("Base64") : null; // Handle empty file
-    const CategS = req.body.Categ;
-    
-  
-    db.query(
-      "INSERT into Series(Titulo, Actor_1, Actor_2, Finalizada, Temporadas, Capitulos, Plataforma, ImagenS,  categoria ) VALUES(?,?,?,?,?,?,?,?,?)",
-      [tituloS, Actor1S, Actor2S, FinalS, Temp, Caps, Plataf, imag64, CategS],
-      (error, result) => {
+    });
+});
+
+app.post("/postserie", (req, res) => {
+
+    const { Titulo, Actor1S, Actor2S, Finalizacion, Temporada, Capitulos, Plataforma, Categoria } = req.body;
+
+    const query = 'CALL SP_CrearSerie(?, ?, ?, ?, ?, ?, ?, ?)';
+    const values = [Titulo, Actor1S, Actor2S, Finalizacion, Temporada, Capitulos, Plataforma, Categoria];
+
+    console.log(req.body);
+    db.query(query, values, (error, results) => {
         if (error) {
-          console.log(error);
-          resp.status(500).json({ error: "Error al insertar Serie" }); // Handle database errors
+            console.error("Error al insertar serie desde la base de datos:", error);
+            res.status(500).send("Error al insertar serie desde la base de datos");
         } else {
-          resp.json({
-            status: "OK",
-          });
+            res.send({ mensaje: "serie agregada con éxito" });
         }
-      }
-    );
-  });
+    });
+});
+
+app.post("/postLibro", (req, res) => {
+
+    const { Titulo, Author, Editorial, Isbn, Categoria } = req.body;
+
+    const query = 'CALL SP_CrearLibro(?, ?, ?, ?, ?)';
+    const values = [Titulo, Author, Editorial, Isbn, Categoria];
+
+    console.log(req.body);
+    db.query(query, values, (error, results) => {
+        if (error) {
+            console.error("Error al insertar serie desde la base de datos:", error);
+            res.status(500).send("Error al insertar serie desde la base de datos");
+        } else {
+            res.send({ mensaje: "serie agregada con éxito" });
+        }
+    });
+});

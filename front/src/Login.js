@@ -27,20 +27,28 @@ const Login = () => {
                 contrasena
             });
     
-            const { mensaje, id_usuario, rol } = response.data;
+            const { mensaje, id_usuario, rol, estado } = response.data;
             setMensaje(mensaje);
             setMensajeTipo(id_usuario > 0 ? 'success' : 'error');
-    
+            
             if (id_usuario > 0) {
-
-
-                localStorage.setItem('sesion', id_usuario);
-                // Redirigir según el rol
-                if (rol === 2) {
-                    navigate('/Admin');
-                } else if (rol === 1) {
-                    navigate('/perfilUsuario');
+                console.log("estado", estado);
+                if (estado == 1) {
+                    localStorage.setItem('sesion', id_usuario);
+                    // Redirigir según el rol
+                    if (rol === 2) {
+                        navigate('/Admin');
+                    } else if (rol === 1) {
+                        navigate('/perfilUsuario');
+                    }
                 }
+                else{
+                    setMensaje("El usuario esta desabilitado");
+                    setMensajeTipo('error');
+                    return;
+                }
+
+               
 
             }
         } catch (error) {
@@ -85,7 +93,7 @@ const Login = () => {
                                 <input 
                                     type="email" 
                                     name="correo" 
-                                    className="form-control bg-dark-x border-0" 
+                                    className="form-control bg-dark-x border-0 text-cont" 
                                     placeholder="Ingresa tu email" 
                                     value={correo}
                                     onChange={(e) => setCorreo(e.target.value)} 
@@ -96,7 +104,7 @@ const Login = () => {
                                 <input 
                                     type="password" 
                                     name="contrasena" 
-                                    className="form-control bg-dark-x border-0 mb-2" 
+                                    className="form-control bg-dark-x border-0 mb-2 text-cont" 
                                     placeholder="Ingresa tu contraseña" 
                                     value={contrasena}
                                     onChange={(e) => setContrasena(e.target.value)} 

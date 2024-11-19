@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link, useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 import '../CSS/Login.css';
 import Estrellas from '../Diseño/Estrellas';
 
@@ -89,7 +89,7 @@ const ReseñaPelicula = () => {
                                 <label htmlFor="peliculaDropdown" className="form-label font-weight-bold">Selecciona una pelicula</label>
                                 <select
                                     id="peliculaDropdown"
-                                    className="form-control bg-dark-x border-0 mb-2 text-light"
+                                    className="form-control bg-dark-x border-0 mb-2 text-cont"
                                     value={selectedPeliculas}
                                     onChange={handleSelect}
                                 >
@@ -113,7 +113,7 @@ const ReseñaPelicula = () => {
                                 <input
                                     type="number"
                                     name="calificacion"
-                                    className="form-control bg-dark-x border-0 mb-2 text-light"
+                                    className="form-control bg-dark-x border-0 mb-2 text-light text-cont"
                                     placeholder="Ingresa tu calificacion"
                                     value={calificacion}
                                     onChange={(e) => setCalificacion(Math.min(Math.max(e.target.value, 0), 5))} // Restringe entre 0 y 5
@@ -124,7 +124,7 @@ const ReseñaPelicula = () => {
                                 <textarea
                                     type="text"
                                     name="reseña"
-                                    className="form-control bg-dark-x border-0 mb-2 text-light"
+                                    className="form-control bg-dark-x border-0 mb-2 text-light text-cont"
                                     placeholder="Ingresa tu reseña"
                                     value={reseña}
                                     onChange={(e) => setReseña(e.target.value)}

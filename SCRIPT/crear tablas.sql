@@ -164,6 +164,9 @@ ALTER TABLE Usuario
 ADD COLUMN Aprobado VARCHAR(50);
 
 ALTER TABLE Peliculas
+ADD COLUMN Duracion INT;
+
+ALTER TABLE Peliculas
 DROP COLUMN Duracion;
 
 

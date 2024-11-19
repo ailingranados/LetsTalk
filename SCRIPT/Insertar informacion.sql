@@ -17,15 +17,19 @@ SELECT * FROM libros;
 
 SELECT * FROM series;
 
+SELECT * FROM peliculas;
+
+SELECT * FROM Usuario_Peliculas;
+
 SELECT * FROM usuario_series;
 
 /************************************************************************************Modificacion en tablas******/
 
 delete from Plataforma where Id = 10;
 
-delete from series where Id = 2;
+delete from series where Id = 4;
 
-ALTER TABLE Plataforma AUTO_INCREMENT = 5;
+ALTER TABLE peliculas AUTO_INCREMENT = 2;
 /************************************************************************************INSERTS EN BD******/
 
 INSERT INTO Usuario (USUARIO, NOMBRE, APELLIDO, CORREO, CONTRASENA, FECHA_NACIMIENTO, ESTADO, FECHA_REGISTRO)

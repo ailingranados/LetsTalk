@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import Item from '../items/item';
+import Item from '../items/item_peliculas.js';
 import '../CSS/PagSeries.css';
 import prueba from "../Diseño/Arcane.jpg"; // Cambia la imagen si es necesario
 import { useNavigate } from 'react-router-dom';
@@ -35,8 +35,9 @@ const PaginaPeliculas = () => {
             <div className='popular-item'>
                 {peliculas.map((pelicula, index) => (
                     <div key={index} onClick={() => handleItemClick(pelicula)}>
-                        <Item
-                            image={prueba}
+                          <Item
+                 
+                         image={prueba}
                             name={pelicula.Titulo}
                             actor_1={pelicula.Actor_1}
                             actor_2={pelicula.Actor_2}
@@ -44,6 +45,7 @@ const PaginaPeliculas = () => {
                             plataforma={pelicula.Plataforma}
                             categoria={pelicula.Categoria}
                         />
+
                     </div>
                 ))}
             </div>
