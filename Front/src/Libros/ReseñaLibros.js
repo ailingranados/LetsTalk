@@ -67,16 +67,16 @@ const ReseñaSerie = () => {
             <div className="row g-0">
                 <div className="col-lg-7 d-none d-lg-block">
                     <Carousel>
-                        <Carousel.Item className="img-1 min-vh-100">
+                        <Carousel.Item className="imgl-1 min-vh-100">
                             <div className="carousel-caption d-none d-md-block"></div>
                         </Carousel.Item>
-                        <Carousel.Item className="img-2 min-vh-100">
+                        <Carousel.Item className="imgl-2 min-vh-100">
                             <div className="carousel-caption d-none d-md-block"></div>
                         </Carousel.Item>
-                        <Carousel.Item className="img-3 min-vh-100">
+                        <Carousel.Item className="imgl-3 min-vh-100">
                             <div className="carousel-caption d-none d-md-block"></div>
                         </Carousel.Item>
-                        <Carousel.Item className="img-4 min-vh-100">
+                        <Carousel.Item className="imgl-4 min-vh-100">
                             <div className="carousel-caption d-none d-md-block"></div>
                         </Carousel.Item>
                     </Carousel>

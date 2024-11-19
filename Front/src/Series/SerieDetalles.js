@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import '../CSS/SerieDetalles.css';
 
-import prueba from "../Diseño/Arcane.jpg";
+import prueba from "../Diseño/series.png";
 import React, { useEffect, useState } from 'react';
 import Estrellas from '../Diseño/Estrellas';
 import { useLocation } from 'react-router-dom';

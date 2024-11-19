@@ -61,6 +61,67 @@ body {
     background-position: center;
 }
 
+.imgp-1 {
+    background-image: url('./DiseñoImg/pelicula1.webp');
+    background-size: cover;
+    background-position: center;
+}
+.imgp-2 {
+    background-image: url('./DiseñoImg/peliculas2.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.imgp-3 {
+    background-image: url('./DiseñoImg/peliculas3.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.imgp-4 {
+    background-image: url('./DiseñoImg/peliculas4.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.imgs-1 {
+    background-image: url('./DiseñoImg/series1.webp');
+    background-size: cover;
+    background-position: center;
+}
+.imgs-2 {
+    background-image: url('./DiseñoImg/series2.avif');
+    background-size: cover;
+    background-position: center;
+}
+.imgs-3 {
+    background-image: url('./DiseñoImg/series3.webp');
+    background-size: cover;
+    background-position: center;
+}
+.imgs-4 {
+    background-image: url('./DiseñoImg/series4.webp');
+    background-size: cover;
+    background-position: center;
+}
+.imgl-1 {
+    background-image: url('./DiseñoImg/libros1.webp');
+    background-size: cover;
+    background-position: center;
+}
+.imgl-2 {
+    background-image: url('./DiseñoImg/libros2.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.imgl-3 {
+    background-image: url('./DiseñoImg/libros3.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.imgl-4 {
+    background-image: url('./DiseñoImg/libros4.jpg');
+    background-size: cover;
+    background-position: center;
+}
 /* Estilo general para los mensajes de error y éxito */
 .message {
     padding: 15px;

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Item from '../items/item_peliculas.js';
 import '../CSS/PagSeries.css';
-import prueba from "../Diseño/Arcane.jpg"; // Cambia la imagen si es necesario
+import img from "../Diseño/peliculas.png"; 
 import { useNavigate } from 'react-router-dom';
 
 const PaginaPeliculas = () => {
@@ -37,7 +37,7 @@ const PaginaPeliculas = () => {
                     <div key={index} onClick={() => handleItemClick(pelicula)}>
                           <Item
                  
-                         image={prueba}
+                         image={img}
                             name={pelicula.Titulo}
                             actor_1={pelicula.Actor_1}
                             actor_2={pelicula.Actor_2}

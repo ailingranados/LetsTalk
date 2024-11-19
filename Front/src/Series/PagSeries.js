@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Item from '../items/item';
 import '../CSS/PagSeries.css';
-import prueba from "../Diseño/Arcane.jpg";
+import prueba from "../Diseño/series.png";
 import { useNavigate } from 'react-router-dom';
 
 

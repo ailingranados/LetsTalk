@@ -2,8 +2,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Item from '../items/item_libros';
-import prueba from "../Diseño/Principito.jpg";
+import prueba from "../Diseño/libros.png";
 import { useNavigate } from 'react-router-dom';
+
 const PaginaLibros = () => {
     const [libros, setLibros] = useState([]);
     const navigate = useNavigate();
