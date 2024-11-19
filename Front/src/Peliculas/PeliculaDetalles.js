@@ -15,7 +15,8 @@ const PeliculaDetalles = () => {
     useEffect(() => {
         const fetchReseña = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/getResenaPeliculas');
+                console.log("peli en try:", pelicula.Id);
+                const response = await axios.get(`http://localhost:3001/getResenaPeliculas/${pelicula.Id}`);
                 setReseña(response.data);
             } catch (error) {
                 console.error("Error al obtener datos:", error);
@@ -23,6 +24,8 @@ const PeliculaDetalles = () => {
         };
         fetchReseña();
     }, []);
+
+    
 
     return (
         <>

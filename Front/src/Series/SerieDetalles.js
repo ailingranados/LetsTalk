@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import '../CSS/SerieDetalles.css';
-import Item from '../items/item';
+
 import prueba from "../Diseño/Arcane.jpg";
 import React, { useEffect, useState } from 'react';
 import Estrellas from '../Diseño/Estrellas';
@@ -16,17 +16,23 @@ const SerieDetalles = () => {
 
 
     useEffect(() => {
+
         const fetchReseña = async () => {
+
             try {
-                const response = await axios.get('http://localhost:3001/getResenaSerie');
-                console.log(response.data);
+                console.log("Serie en try:", serie.Id);
+                const response = await axios.get(`http://localhost:3001/getResenaSerie/${serie.Id}`);
+
+                console.log("respuesta", response.data);
                 setReseña(response.data);
+                {console.log("reseñas", reseñas)}
             } catch (error) {
                 console.error("Error al obtener datos:", error);
             }
         };
         fetchReseña();
-    }, []);
+    }, []
+    )
 
     return (
         <>
@@ -54,21 +60,22 @@ const SerieDetalles = () => {
 
 
                 <div className='contenedor-reseña'>
-                    
-                        {reseñas.map((reseña, index) => (
-                            <div key={index} >
-<div className='reseña'>
+
+                    {reseñas.map((reseña, index) => (
+                        <div key={index} >
+                            <div className='reseña'>
                                 <div className='item'>
 
 
                                     <div className="item-prices">
                                         Usuario:
                                         <div className="">
+                                            
                                             {reseña.Usuario}
+                                            
 
                                         </div>
-
-
+                                        
                                     </div>
 
                                     {/* <div className="item-prices">
@@ -84,11 +91,11 @@ const SerieDetalles = () => {
                                     <div className="item-prices">
 
                                         Calificacion:
-                                        
-                                            {/* {reseña.Calificacion} */}
-                                            <Estrellas score={reseña.Calificacion} />
 
-                                      
+                                        {/* {reseña.Calificacion} */}
+                                        <Estrellas score={reseña.Calificacion} />
+
+
                                     </div>
 
                                     <div className="item-prices">
@@ -111,9 +118,9 @@ const SerieDetalles = () => {
 
                                 </div>
                             </div>
-                            </div>
-                        ))}
-                   
+                        </div>
+                    ))}
+
 
                 </div>
             </div>

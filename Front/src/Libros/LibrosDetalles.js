@@ -13,10 +13,11 @@ const LibroDetalles = () => {
     const [reseñas, setReseña] = useState([]);
 
     useEffect(() => {
+        console.log("Libro en try:", libro.Id);
         const fetchReseña = async () => {
             try {
-                // Cambié la URL de la API a /getResenaLibros
-                const response = await axios.get('http://localhost:3001/getResenaLibros');
+                
+                const response = await axios.get(`http://localhost:3001/getResenaLibros/${libro.Id}`);
                 console.log(response.data);
                 setReseña(response.data);
             } catch (error) {

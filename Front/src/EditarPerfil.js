@@ -81,7 +81,7 @@ const EditarPerfil = () => {
 
           console.log("modificacion exitosa");
           alert("Usuario Modificado");
-          navigate('/perfil');
+          navigate('/perfilUsuario');
         })
         .catch((error) => {
           console.error("Hubo un error al modificar usuario", error);
@@ -166,11 +166,11 @@ const EditarPerfil = () => {
             </div>
             <div className="card-body">
               <form id="formulario" onSubmit={handleSubmit}>
-                <div className="form-group mb-3">
+                <div className="form-group mb-3 ">
                   <label htmlFor="correo">Usuario</label>
                   <input
                     type="email"
-                    className="form-control"
+                    className="form-control text-cont"
                     id="correo"
                     value={usuario}
                     onChange={(e) => setUsuario(e.target.value)}
@@ -181,7 +181,7 @@ const EditarPerfil = () => {
                   <label htmlFor="correo">Correo</label>
                   <input
                     type="email"
-                    className="form-control"
+                    className="form-control text-cont"
                     id="correo"
                     value={correo}
                     onChange={(e) => setCorreo(e.target.value)}
@@ -192,7 +192,7 @@ const EditarPerfil = () => {
                   <label htmlFor="nombre">Nombre</label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control text-cont"
                     id="nombre"
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
@@ -203,7 +203,7 @@ const EditarPerfil = () => {
                   <label htmlFor="apellidoP">Apellido Paterno</label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control text-cont"
                     id="apellidoP"
                     value={apellido}
                     onChange={(e) => setApellido(e.target.value)}
@@ -211,7 +211,7 @@ const EditarPerfil = () => {
                   />
                 </div>
 
-                <div className="form-group mb-3">
+                {/* <div className="form-group mb-3">
                   <label htmlFor="imagen">Imagen</label>
                   <input
                     type="file"
@@ -219,17 +219,19 @@ const EditarPerfil = () => {
                     id="imagen"
                     onChange={(e) => setFotoPerfil(e.target.files[0])}
                   />
-                </div>
+                </div> */}
+                 <label htmlFor="apellidoP"></label>
                 <div className=" mt-3" role="group" aria-label="Basic example">
-                  <button type="button" onClick={handleSubmit}>
+                  <button type="button" className="btn btn-light w-100" onClick={handleSubmit}>
                     Guardar Cambios
                   </button>
-
+                  <br/>
                 </div>
+                <label htmlFor="apellidoP"></label>
                 <div className=" mt-2 " role="group" aria-label="Basic example">
-                  <div className="buttons">
+                  <div className="">
 
-                    <button
+                    <button className="btn btn-light w-100"
                       /**al presionar el boton pasa datos */
                       onClick=
                       {

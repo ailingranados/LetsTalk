@@ -348,15 +348,21 @@ app.get('/getDatosLibros', (req, res) => {
     });
 });
 
-app.get('/getResenaLibros', (req, res) => {
-    const query = 'SELECT * FROM VistaReseñaLibro';
+app.get('/getResenaLibros/:id', (req, res) => {
+    const query = 'CALL SP_BuscarReseñasLibros(?)';
+    const idLibro = req.params.id;
 
-    db.query(query, (error, rows) => {
+    db.query(query,[idLibro], (error, results) => {
         if (error) {
             console.error("Error al obtener reseñas de libros:", error);
             res.status(500).send("Error al obtener reseñas de series");
         } else {
-            res.json(rows);
+            if (results && results[0]) {
+                console.log("Resultados de la consulta:", results[0]);
+                res.json(results[0]);
+            } else {
+                res.json([]);
+            } 
         }
     });
 });
@@ -404,16 +410,22 @@ app.get('/getDatosSeries', (req, res) => {
     });
 });
 
-app.get('/getResenaSerie', (req, res) => {
+app.get('/getResenaSerie/:id', (req, res) => {
     const query = 'CALL SP_BuscarReseñasSeries(?)';
-    const values = [req.body.titulo];
+    const idSerie = req.params.id;
 
-    db.query(query, values, (error, rows) => {
+    console.log("ID de la serie:", idSerie);
+    db.query(query, [idSerie], (error, results) => {
         if (error) {
             console.error("Error al obtener reseñas de series:", error);
             res.status(500).send("Error al obtener reseñas de series");
         } else {
-            res.json(rows);
+            if (results && results[0]) {
+                console.log("Resultados de la consulta:", results[0]);
+                res.json(results[0]);
+            } else {
+                res.json([]);
+            }
         }
     });
 });
@@ -496,16 +508,21 @@ app.post("/resenaPelicula", (req, res) => {
     });
 });
 
-app.get('/getResenaPeliculas', (req, res) => {
-    const query = 'CALL SP_ObtenerReseñasPelicula()';
+app.get('/getResenaPeliculas/:id', (req, res) => {
+    const query = 'CALL SP_ObtenerReseñasPelicula(?)';
+    const idPelicula = req.params.id;
 
-    db.query(query, (error, rows) => {
+    db.query(query,[idPelicula], (error, results) => {
         if (error) {
             console.error("Error al obtener reseñas de películas:", error);
             res.status(500).send("Error al obtener reseñas de películas");
         } else {
-            res.json(rows[0]); // Se devuelve el resultado de la llamada al procedimiento
-        }
+            if (results && results[0]) {
+                console.log("Resultados de la consulta:", results[0]);
+                res.json(results[0]);
+            } else {
+                res.json([]);
+            } }
     });
 });
 

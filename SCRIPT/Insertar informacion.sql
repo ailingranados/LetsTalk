@@ -106,3 +106,5 @@ CALL SP_CrearLibro(
     '9781234567890',        
     'Suspenso'             
 );
+
+CALL SP_BuscarReseñasSeries(5)

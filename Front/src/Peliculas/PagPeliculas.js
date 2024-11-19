@@ -24,7 +24,7 @@ const PaginaPeliculas = () => {
     }, []);
 
     const handleItemClick = (pelicula) => {
-        navigate(`/detallePelicula/${pelicula.id}`, { state: { pelicula } });
+        navigate(`/detallePelicula/${pelicula.Id}`, { state: { pelicula } });
     };
 
     return (

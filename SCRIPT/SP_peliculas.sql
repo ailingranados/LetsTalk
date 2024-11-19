@@ -80,9 +80,12 @@ DELIMITER ;
 
 DROP PROCEDURE SP_ObtenerReseñasPelicula;
 DELIMITER $$
-CREATE DEFINER=root@localhost PROCEDURE SP_ObtenerReseñasPelicula ()
+CREATE DEFINER=root@localhost PROCEDURE SP_ObtenerReseñasPelicula (
+	In_pelicula 	INT 
+	)
 BEGIN
     SELECT * 
-    FROM v_resenas_peliculas;
+    FROM v_resenas_peliculas
+    where id_pelicula = In_pelicula;
 END$$
 DELIMITER ;

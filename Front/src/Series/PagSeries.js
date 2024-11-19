@@ -26,6 +26,7 @@ const PaguinaSeries = () => {
     }, []);
 
     const handleItemClick = (serie) => {
+        console.log("Serie seleccionada:", serie);
         navigate(`/detalleSerie/${serie.id}`, { state: { serie } });
     };
 

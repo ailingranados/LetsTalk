@@ -91,7 +91,7 @@ const ReseñaSerie = () => {
                                 <label htmlFor="serieDropdown" className="form-label font-weight-bold">Selecciona un libro</label>
                                 <select
                                     id="serieDropdown"
-                                    className="form-control bg-dark-x border-0 mb-2 text-light"
+                                    className="form-control bg-dark-x border-0 mb-2 text-cont"
                                     value={selectedLibro}
                                     onChange={handleSelect}
                                 >
@@ -111,7 +111,7 @@ const ReseñaSerie = () => {
                                 <input
                                     type="number"
                                     name="calificacion"
-                                    className="form-control bg-dark-x border-0 mb-2 text-light"
+                                    className="form-control bg-dark-x border-0 mb-2 text-cont"
                                     placeholder="Ingresa tu calificacion"
                                     value={calificacion}
                                     onChange={(e) => setCalificacion(Math.min(Math.max(e.target.value, 0), 5))} // Restringe entre 0 y 5
@@ -124,7 +124,7 @@ const ReseñaSerie = () => {
                                 <textarea
                                     type="text"
                                     name="reseña"
-                                    className="form-control bg-dark-x border-0 mb-2 text-light"
+                                    className="form-control bg-dark-x border-0 mb-2 text-cont"
                                     placeholder="Ingresa tu reseña"
                                     value={reseña}
                                     onChange={(e) => setReseña(e.target.value)}

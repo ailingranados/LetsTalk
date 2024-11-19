@@ -2,7 +2,7 @@ SELECT * FROM VistaSeriesCompleta;
 
 SELECT * FROM VistaReseñaSerie where IdSerie = 5;
 
-SELECT * FROM VistaReseñaLibro;
+SELECT * FROM VistaReseñaLibro where IdLibro = 2;
 
 SELECT * FROM VistaPeliculasCompleta;
 
@@ -12,8 +12,11 @@ SELECT * FROM v_top_peliculas;
 
 SELECT * FROM v_detalle_peliculas;
 
+SELECT * FROM VistaLibrosCompleta;
+
 CREATE VIEW VistaSeriesCompleta AS
 SELECT 
+	s.Id,
 	s.Titulo, 
 	s.Actor_1,
     s.Actor_2,
@@ -62,6 +65,7 @@ JOIN libros l ON ul.Libro = l.Id;
 
 CREATE VIEW VistaLibrosCompleta AS
 SELECT 
+	l.Id,
     l.Titulo,
     l.Author,
     l.Editorial,
@@ -89,10 +93,11 @@ LEFT JOIN
 GROUP BY 
     p.id, p.Titulo, p.Director, p.categoria;
 
-
+DROP VIEW v_resenas_peliculas;
 CREATE VIEW v_resenas_peliculas AS
 SELECT
     r.Id AS id_resena,
+    p.Id AS id_pelicula,
     p.Titulo AS titulo_pelicula,
     u.Nombre AS usuario,
     r.Calificacion,
@@ -123,6 +128,7 @@ ORDER BY
 
 CREATE VIEW VistaPeliculasCompleta AS
 SELECT 
+	s.Id,
 	s.Titulo, 
     s.Director,
 	s.Actor_1,

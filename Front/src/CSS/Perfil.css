@@ -3,6 +3,9 @@
     --dark-x: #1e2126;
     --light: #ffffff;
 }
+.text-cont {
+    color: #000000 !important;
+}
 
 body {
     font-family: 'Spartan', sans-serif;

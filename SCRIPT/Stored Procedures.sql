@@ -371,22 +371,30 @@ END //
 DELIMITER ;
 
 
-
+DROP PROCEDURE SP_BuscarReseñasSeries
 DELIMITER //
 CREATE PROCEDURE SP_BuscarReseñasSeries(
-	In_Serie 				VARCHAR(50)
+	In_Serie 	INT 
 	
 )
 BEGIN
 
-	DECLARE Id_Buscar INT;
-    
-    SELECT S.Id
-    INTO Id_Buscar
-		FROM Series S
-			WHERE S.Titulo = In_Serie;
-       
-SELECT * FROM VistaReseñaSerie where IdSerie = Id_Buscar;
+SELECT * FROM VistaReseñaSerie where IdSerie = In_Serie;
     
 END //
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE SP_BuscarReseñasLibros(
+	In_Libro 	INT 
+	
+)
+BEGIN
+
+SELECT * FROM VistaReseñaLibro where IdLibro = In_Libro;
+    
+END //
+DELIMITER ;
+
+
+

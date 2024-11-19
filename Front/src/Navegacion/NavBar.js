@@ -43,7 +43,7 @@ export default function Navbar() {
                         </li>
                         {/* Mis Reseñas */}
                         <li className="nav-item">
-                            <Link className="nav-link text-dark" to="/mis-resenas">Mis Reseñas</Link>
+                            {/* <Link className="nav-link text-dark" to="/mis-resenas">Mis Reseñas</Link> */}
                         </li>
                     </ul>
                     {/* Enlace para "Mi perfil" en la esquina derecha */}

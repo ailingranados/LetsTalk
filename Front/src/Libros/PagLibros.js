@@ -20,6 +20,7 @@ const PaginaLibros = () => {
         fetchLibros();
     }, []);
     const handleItemClick = (libro) => {
+        console.log("Libro seleccionado:", libro);
         navigate(`/detalleLibros/${libro.id}`, { state: { libro } });
     };
 
